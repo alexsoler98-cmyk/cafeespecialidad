@@ -6,7 +6,6 @@
   <title>Tienda | Deep Work Coffee</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
-    /* ... (MISMOS ESTILOS QUE INDEX.HTML PARA EL CARRITO) ... */
     * { box-sizing: border-box; }
     body { margin: 0; font-family: 'Inter', sans-serif; background: #f5f5f5; }
     nav { background: #fff; padding: 20px 0; border-bottom: 1px solid #eee; position: sticky; top: 0; z-index: 100; }
@@ -16,20 +15,13 @@
     .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; padding: 40px 0; }
     .product-card { background: #fff; border-radius: 20px; overflow: hidden; border: 1px solid #eee; text-align: center; }
     .product-info { padding: 25px; }
-    .quantity-selector { margin: 15px 0; display: flex; justify-content: center; align-items: center; gap: 10px; }
-    .input-qty { width: 60px; padding: 8px; border-radius: 8px; border: 1px solid #ccc; text-align: center; }
-    .btn-add { background: #000; color: #fff; border: none; padding: 15px; width: 100%; border-radius: 12px; cursor: pointer; font-weight: 600; }
-    .btn-add.added { background: #28a745; }
+    .input-qty { width: 50px; padding: 5px; text-align: center; border-radius: 5px; border: 1px solid #ccc; margin: 10px; }
+    .btn-add { background: #000; color: #fff; border: none; padding: 12px; width: 100%; border-radius: 10px; cursor: pointer; font-weight: 600; }
     
-    /* ESTILOS CARRITO */
-    #cart-panel { position: fixed; right: -420px; top: 0; width: 380px; height: 100%; background: #fff; box-shadow: -10px 0 30px rgba(0,0,0,0.1); transition: 0.4s; z-index: 1000; padding: 40px 25px; display: flex; flex-direction: column; }
+    /* CARRITO */
+    #cart-panel { position: fixed; right: -420px; top: 0; width: 350px; height: 100%; background: #fff; box-shadow: -10px 0 30px rgba(0,0,0,0.1); transition: 0.4s; z-index: 1000; padding: 30px; display: flex; flex-direction: column; }
     #cart-panel.open { right: 0; }
-    .cart-items-container { flex-grow: 1; overflow-y: auto; }
-    .cart-item { display: flex; justify-content: space-between; align-items: center; padding: 15px 0; border-bottom: 1px solid #eee; }
-    .cart-qty-controls { display: flex; align-items: center; gap: 8px; background: #f0f0f0; border-radius: 30px; padding: 4px 12px; }
-    .qty-btn { border: none; background: #000; color: #fff; width: 24px; height: 24px; border-radius: 50%; cursor: pointer; font-weight: bold; }
-    .cart-trigger { background: #111; color: #fff; padding: 8px 18px; border-radius: 50px; cursor: pointer; display: flex; gap: 8px; align-items: center; }
-    .btn-checkout { background: #000; color: #fff; width: 100%; padding: 18px; border: none; border-radius: 12px; font-weight: 700; cursor: pointer; margin-top: 20px; }
+    .cart-trigger { background: #111; color: #fff; padding: 8px 16px; border-radius: 50px; cursor: pointer; display: flex; gap: 8px; align-items: center; }
   </style>
 </head>
 <body>
@@ -39,7 +31,7 @@
       <a href="index.html" style="text-decoration:none; color:inherit;"><strong>Deep Work Coffee</strong></a>
       <div style="display:flex; align-items:center;">
         <a href="index.html">Inicio</a>
-        <div class="cart-trigger" onclick="toggleCart()">🛒 <span id="cart-count">0</span></div>
+        <div class="cart-trigger" onclick="toggleCart()" style="margin-left:20px;">🛒 <span id="cart-count">0</span></div>
       </div>
     </div>
   </nav>
@@ -49,27 +41,34 @@
       <img src="https://images.unsplash.com/photo-1559056199-641a0ac8b55e" style="width:100%; height:200px; object-fit:cover;">
       <div class="product-info">
         <h3>Etiopía - Yirgacheffe</h3>
-        <p>30,00€</p>
-        <div class="quantity-selector">
-          <input type="number" id="qty-etiopia" value="1" min="1" class="input-qty">
-        </div>
-        <button class="btn-add" id="btn-etiopia" onclick="addToCart('etiopia', 'Etiopía Yirgacheffe', 30)">Añadir al carrito</button>
+        <p>30€</p>
+        <input type="number" id="qty-etiopia" value="1" min="1" class="input-qty">
+        <button class="btn-add" onclick="addToCart('etiopia', 'Etiopía Yirgacheffe', 30)">Añadir al carrito</button>
+      </div>
+    </div>
+    <div class="product-card">
+      <img src="https://images.unsplash.com/photo-1611854779393-1b2da9d400fe" style="width:100%; height:200px; object-fit:cover;">
+      <div class="product-info">
+        <h3>Brasil - Minas Gerais</h3>
+        <p>25€</p>
+        <input type="number" id="qty-brasil" value="1" min="1" class="input-qty">
+        <button class="btn-add" onclick="addToCart('brasil', 'Brasil Minas Gerais', 25)">Añadir al carrito</button>
       </div>
     </div>
   </section>
 
   <div id="cart-panel">
-    <div style="display:flex; justify-content:space-between; align-items:center;">
-      <h2>Tu Carrito</h2>
-      <button onclick="toggleCart()" style="border:none; background:none; font-size:28px; cursor:pointer;">&times;</button>
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+      <h2>Tu Pedido</h2>
+      <button onclick="toggleCart()" style="border:none; background:none; font-size:24px; cursor:pointer;">&times;</button>
     </div>
-    <div id="cart-items" class="cart-items-container"></div>
-    <div style="border-top: 2px solid #111; padding-top: 20px;">
-      <div style="display:flex; justify-content:space-between; font-size:20px; font-weight:bold;">
+    <div id="cart-items" style="flex-grow:1; overflow-y:auto;"></div>
+    <div style="border-top: 2px solid #000; padding-top: 20px;">
+      <div style="display:flex; justify-content:space-between; font-weight:bold;">
         <span>Total:</span>
         <span><span id="cart-total">0</span>€</span>
       </div>
-      <button class="btn-checkout" onclick="window.location.href='https://buy.stripe.com/test_6oUcMX0UMaYsgZMaMB5EY00'">Finalizar Compra</button>
+      <button onclick="window.location.href='https://buy.stripe.com/test_...' " style="width:100%; padding:15px; background:#000; color:#fff; border:none; border-radius:10px; margin-top:15px; cursor:pointer;">Pagar con Stripe</button>
     </div>
   </div>
 
@@ -77,14 +76,8 @@
     let cart = JSON.parse(localStorage.getItem('deepWorkCart')) || {};
 
     function addToCart(id, name, price) {
-      const qtyInput = document.getElementById('qty-' + id);
-      const btn = document.getElementById('btn-' + id);
-      const quantity = parseInt(qtyInput.value);
-      if (cart[id]) { cart[id].quantity += quantity; } else { cart[id] = { name, price, quantity }; }
-      
-      btn.innerText = "¡Añadido! ✓"; btn.classList.add('added');
-      setTimeout(() => { btn.innerText = "Añadir al carrito"; btn.classList.remove('added'); }, 1000);
-      
+      const qty = parseInt(document.getElementById('qty-' + id).value);
+      if (cart[id]) { cart[id].quantity += qty; } else { cart[id] = { name, price, quantity: qty }; }
       updateUI();
       document.getElementById('cart-panel').classList.add('open');
     }
@@ -94,35 +87,23 @@
       const countLabel = document.getElementById('cart-count');
       const totalLabel = document.getElementById('cart-total');
       container.innerHTML = '';
-      let total = 0; let totalItems = 0;
+      let total = 0; let items = 0;
 
       Object.keys(cart).forEach(id => {
         const item = cart[id];
         total += item.price * item.quantity;
-        totalItems += item.quantity;
-        container.innerHTML += `
-          <div class="cart-item">
-            <div><strong>${item.name}</strong><br><small>${item.price * item.quantity}€</small></div>
-            <div class="cart-qty-controls">
-              <button class="qty-btn" onclick="changeQty('${id}', -1)">-</button>
-              <span>${item.quantity}</span>
-              <button class="qty-btn" onclick="changeQty('${id}', 1)">+</button>
-            </div>
-          </div>`;
+        items += item.quantity;
+        container.innerHTML += `<div style="display:flex; justify-content:space-between; margin-bottom:10px;">
+          <span>${item.name} (x${item.quantity})</span>
+          <button onclick="removeItem('${id}')" style="color:red; background:none; border:none; cursor:pointer;">X</button>
+        </div>`;
       });
-      countLabel.innerText = totalItems;
+      countLabel.innerText = items;
       totalLabel.innerText = total;
       localStorage.setItem('deepWorkCart', JSON.stringify(cart));
     }
 
-    function changeQty(id, delta) {
-      if (cart[id]) {
-        cart[id].quantity += delta;
-        if (cart[id].quantity <= 0) delete cart[id];
-        updateUI();
-      }
-    }
-
+    function removeItem(id) { delete cart[id]; updateUI(); }
     function toggleCart() { document.getElementById('cart-panel').classList.toggle('open'); }
     document.addEventListener('DOMContentLoaded', updateUI);
   </script>
