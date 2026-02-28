@@ -1,10 +1,12 @@
-// Cargar carrito al iniciar
+// 1. Cargar el carrito guardado o empezar uno vacío
 let cart = JSON.parse(localStorage.getItem('deepWorkCart')) || {};
 
+// 2. FUNCIÓN PARA DIBUJAR EL CARRITO (Aquí es donde se crean los botones + y -)
 function updateUI() {
     const container = document.getElementById('cart-items');
     const countLabel = document.getElementById('cart-count');
     const totalLabel = document.getElementById('cart-total');
+    
     if (!container || !countLabel || !totalLabel) return;
 
     container.innerHTML = '';
@@ -13,39 +15,79 @@ function updateUI() {
 
     Object.keys(cart).forEach(id => {
         const item = cart[id];
-        total += item.price * item.quantity;
+        const subtotal = item.price * item.quantity;
+        total += subtotal;
         totalItems += item.quantity;
+
+        // Aquí creamos la estructura visual de cada fila del carrito
         container.innerHTML += `
-            <div style="display:flex; justify-content:space-between; align-items:center; padding:10px 0; border-bottom:1px solid #eee;">
-                <div><strong>${item.name}</strong><br><small>${item.price * item.quantity}€</small></div>
-                <div style="display:flex; align-items:center; gap:8px;">
-                    <button onclick="changeQty('${id}', -1)" style="width:24px; height:24px; border-radius:50%; border:none; background:#000; color:#fff; cursor:pointer;">-</button>
-                    <span>${item.quantity}</span>
-                    <button onclick="changeQty('${id}', 1)" style="width:24px; height:24px; border-radius:50%; border:none; background:#000; color:#fff; cursor:pointer;">+</button>
+            <div style="display:flex; justify-content:space-between; align-items:center; padding:15px 0; border-bottom:1px solid #eee;">
+                <div style="flex:1;">
+                    <strong style="display:block;">${item.name}</strong>
+                    <small>${subtotal}€</small>
                 </div>
+                
+                <div style="display:flex; align-items:center; gap:10px; background:#f0f0f0; padding:5px 10px; border-radius:20px;">
+                    <button onclick="changeQty('${id}', -1)" style="border:none; background:none; cursor:pointer; font-weight:bold; width:20px;">-</button>
+                    <span style="font-weight:bold; min-width:15px; text-align:center;">${item.quantity}</span>
+                    <button onclick="changeQty('${id}', 1)" style="border:none; background:none; cursor:pointer; font-weight:bold; width:20px;">+</button>
+                </div>
+
+                <button onclick="removeItem('${id}')" style="background:none; border:none; color:red; cursor:pointer; margin-left:10px;">🗑️</button>
             </div>`;
     });
 
+    // Actualizar números en la interfaz
     countLabel.innerText = totalItems;
     totalLabel.innerText = total;
+
+    // GUARDAR EN LA MEMORIA DEL NAVEGADOR
     localStorage.setItem('deepWorkCart', JSON.stringify(cart));
+
+    if (totalItems === 0) {
+        container.innerHTML = '<p style="text-align:center; color:#888; margin-top:20px;">Tu carrito está vacío</p>';
+    }
 }
 
+// 3. FUNCIÓN PARA AÑADIR (Desde la página de cafés)
 function addToCart(id, name, price) {
     const qtyInput = document.getElementById('qty-' + id);
-    const quantity = qtyInput ? parseInt(qtyInput.value) : 1;
-    if (cart[id]) { cart[id].quantity += quantity; } else { cart[id] = { name, price, quantity }; }
+    const quantityToAdd = qtyInput ? parseInt(qtyInput.value) : 1;
+
+    if (cart[id]) {
+        cart[id].quantity += quantityToAdd;
+    } else {
+        cart[id] = { name, price, quantity: quantityToAdd };
+    }
+    
+    if(qtyInput) qtyInput.value = 1; // Resetear el selector de la tienda
     updateUI();
     document.getElementById('cart-panel').classList.add('open');
 }
 
+// 4. FUNCIÓN PARA SUMAR/RESTAR (Dentro del carrito)
 function changeQty(id, delta) {
     if (cart[id]) {
         cart[id].quantity += delta;
-        if (cart[id].quantity <= 0) delete cart[id];
+        // Si la cantidad llega a 0, lo borramos automáticamente
+        if (cart[id].quantity <= 0) {
+            delete cart[id];
+        }
         updateUI();
     }
 }
 
-function toggleCart() { document.getElementById('cart-panel').classList.toggle('open'); }
+// 5. FUNCIÓN PARA ELIMINAR DE GOLPE
+function removeItem(id) {
+    delete cart[id];
+    updateUI();
+}
+
+// 6. FUNCIÓN PARA ABRIR/CERRAR EL PANEL
+function toggleCart() {
+    const panel = document.getElementById('cart-panel');
+    if(panel) panel.classList.toggle('open');
+}
+
+// Ejecutar al cargar la página para que aparezca lo que ya estaba guardado
 document.addEventListener('DOMContentLoaded', updateUI);
