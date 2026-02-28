@@ -6,157 +6,94 @@
     <title>Tienda | Deep Work Coffee</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
-        /* 1. ESTILOS GLOBALES (Igual que index) */
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
+        html { scroll-behavior: smooth; }
         
-        html { scroll-behavior: smooth; } /* Hace que el salto al café sea suave */
-
         body { 
             background-color: #f2e8df; 
             background-image: url('https://www.transparenttextures.com/patterns/coffee-beans.png');
             background-attachment: fixed;
             color: #3d2b1f;
-            min-height: 100vh;
         }
 
-        .container { max-width: 1000px; margin: auto; padding: 0 20px; }
+        .container { max-width: 900px; margin: auto; padding: 0 20px; }
 
-        /* 2. NAVEGACIÓN */
         nav { 
             background: rgba(255, 255, 255, 0.8); 
             backdrop-filter: blur(10px);
-            padding: 15px 0; 
-            border-bottom: 1px solid rgba(61, 43, 31, 0.1); 
-            position: sticky; top: 0; z-index: 100; 
-        }
-        .nav-inner { display: flex; justify-content: space-between; align-items: center; }
-        .nav-brand { text-decoration: none; color: #3d2b1f; font-weight: 900; font-size: 22px; }
-        
-        .cart-trigger { 
-            cursor: pointer; font-weight: bold; background: #3d2b1f; color: #fff; 
-            padding: 10px 20px; border-radius: 50px; display: flex; align-items: center; gap: 8px;
-            border: none;
+            padding: 15px 0; border-bottom: 1px solid rgba(61, 43, 31, 0.1); 
+            position: sticky; top: 0; z-index: 100;
         }
 
-        /* 3. LISTA DE PRODUCTOS */
-        .products-list { padding: 60px 0; }
-        
         .product-section { 
-            background: rgba(255, 255, 255, 0.5);
-            backdrop-filter: blur(5px);
-            border-radius: 30px;
-            padding: 40px;
-            margin-bottom: 50px;
-            display: flex;
-            align-items: center;
-            gap: 40px;
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            box-shadow: 0 10px 20px rgba(61, 43, 31, 0.05);
+            background: rgba(255,255,255,0.4); 
+            border-radius: 30px; padding: 40px; margin: 60px 0;
+            display: flex; gap: 40px; align-items: center;
         }
 
-        .product-image { width: 300px; height: 300px; border-radius: 20px; object-fit: cover; }
+        .product-image { width: 300px; border-radius: 20px; }
 
-        .product-info { flex: 1; }
-        .product-info h2 { font-size: 32px; font-weight: 900; margin-bottom: 10px; }
-        .product-info p { color: #5a4033; margin-bottom: 20px; line-height: 1.6; }
-        .price { font-size: 24px; font-weight: 900; color: #E85D04; display: block; margin-bottom: 20px; }
-
-        /* CONTROLES DE CANTIDAD */
-        .controls { display: flex; align-items: center; gap: 15px; margin-top: 20px; }
-        .input-qty { 
-            width: 60px; padding: 10px; border-radius: 10px; border: 1px solid #dcd1c5; 
-            text-align: center; font-weight: bold; outline: none;
-        }
         .btn-add { 
-            background: #3d2b1f; color: #fff; border: none; padding: 12px 30px; 
-            border-radius: 50px; font-weight: 800; cursor: pointer; transition: 0.3s;
+            background: #3d2b1f; color: #fff; border: none; padding: 12px 25px; 
+            border-radius: 50px; font-weight: 800; cursor: pointer; margin-top: 15px;
         }
-        .btn-add:hover { background: #E85D04; transform: scale(1.05); }
-
-        /* 4. PANEL DEL CARRITO (Igual que index) */
+        
         #cart-panel {
             position: fixed; right: -420px; top: 0; width: 380px; height: 100%;
             background: #fff; box-shadow: -10px 0 30px rgba(0,0,0,0.1);
             transition: 0.4s; z-index: 1000; padding: 40px;
-            display: flex; flex-direction: column;
         }
         #cart-panel.open { right: 0; }
-        .cart-items-container { flex-grow: 1; overflow-y: auto; margin-top: 20px; }
-
-        @media (max-width: 768px) {
-            .product-section { flex-direction: column; text-align: center; padding: 20px; }
-            .product-image { width: 100%; height: 200px; }
-        }
     </style>
 </head>
 <body>
 
     <nav>
-        <div class="container nav-inner">
-            <a href="index.html" class="nav-brand">DEEP WORK COFFEE</a>
-            <div style="display:flex; align-items:center; gap:25px;">
-                <a href="index.html" style="text-decoration:none; color:#3d2b1f; font-weight:600;">Inicio</a>
-                <button onclick="toggleCart()" class="cart-trigger">🛒 (<span id="cart-count">0</span>)</button>
-            </div>
+        <div class="container" style="display:flex; justify-content:space-between; align-items:center;">
+            <a href="index.html" style="text-decoration:none; color:#3d2b1f; font-weight:900; font-size:22px;">DEEP WORK COFFEE</a>
+            <button onclick="toggleCart()" style="background:#3d2b1f; color:#fff; border:none; padding:10px 20px; border-radius:50px; cursor:pointer;">🛒 (<span id="cart-count">0</span>)</button>
         </div>
     </nav>
 
-    <main class="container products-list">
-        
+    <main class="container">
         <section class="product-section" id="etiopia">
             <img src="https://images.unsplash.com/photo-1511537190424-bbbab87ac5eb?q=80&w=2070" class="product-image">
-            <div class="product-info">
+            <div>
                 <h2>Etiopía Yirgacheffe</h2>
-                <p>Un café con notas de jazmín y bergamota. Es ligero, elegante y perfecto para quienes buscan una experiencia refrescante y clara.</p>
-                <span class="price">22.00€</span>
-                <div class="controls">
-                    <input type="number" id="qty-etiopia" value="1" min="1" class="input-qty">
-                    <button class="btn-add" onclick="addToCart('etiopia', 'Etiopía Yirgacheffe', 22)">AÑADIR AL CARRITO</button>
-                </div>
+                <p>Notas florales y cítricas.</p>
+                <p style="font-weight:900; font-size:24px; color:#E85D04;">22.00€</p>
+                <button class="btn-add" onclick="addToCart('etiopia', 'Etiopía', 22)">AÑADIR AL CARRITO</button>
             </div>
         </section>
 
         <section class="product-section" id="colombia">
             <img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?q=80&w=2070" class="product-image">
-            <div class="product-info">
+            <div>
                 <h2>Colombia Huila</h2>
-                <p>Cuerpo medio con un dulzor característico a caramelo y chocolate. Muy equilibrado, ideal para acompañar largas jornadas de trabajo.</p>
-                <span class="price">18.50€</span>
-                <div class="controls">
-                    <input type="number" id="qty-colombia" value="1" min="1" class="input-qty">
-                    <button class="btn-add" onclick="addToCart('colombia', 'Colombia Huila', 18.5)">AÑADIR AL CARRITO</button>
-                </div>
+                <p>Equilibrado y dulce.</p>
+                <p style="font-weight:900; font-size:24px; color:#E85D04;">18.50€</p>
+                <button class="btn-add" onclick="addToCart('colombia', 'Colombia', 18.5)">AÑADIR AL CARRITO</button>
             </div>
         </section>
 
         <section class="product-section" id="peru">
             <img src="https://images.unsplash.com/photo-1459755486867-b55449bb39ff?q=80&w=2070" class="product-image">
-            <div class="product-info">
+            <div>
                 <h2>Perú Cajamarca</h2>
-                <p>Proviene de agricultura orgánica. Notas intensas de chocolate negro y frutos secos tostados. Un café con mucha personalidad.</p>
-                <span class="price">20.00€</span>
-                <div class="controls">
-                    <input type="number" id="qty-peru" value="1" min="1" class="input-qty">
-                    <button class="btn-add" onclick="addToCart('peru', 'Perú Cajamarca', 20)">AÑADIR AL CARRITO</button>
-                </div>
+                <p>Intenso chocolate amargo.</p>
+                <p style="font-weight:900; font-size:24px; color:#E85D04;">20.00€</p>
+                <button class="btn-add" onclick="addToCart('peru', 'Perú', 20)">AÑADIR AL CARRITO</button>
             </div>
         </section>
-
     </main>
 
     <div id="cart-panel">
-        <div style="display:flex; justify-content:space-between; align-items:center;">
-            <h2 style="font-weight:900; color: #3d2b1f;">MI CESTA</h2>
+        <div style="display:flex; justify-content:space-between;">
+            <h2>CARRITO</h2>
             <button onclick="toggleCart()" style="border:none; background:none; font-size:32px; cursor:pointer;">&times;</button>
         </div>
-        <div id="cart-items" class="cart-items-container"></div>
-        <div style="border-top:2px solid #f2e8df; padding-top:20px;">
-            <div style="display:flex; justify-content:space-between; font-weight:900; font-size:24px; color: #3d2b1f;">
-                <span>Total:</span>
-                <span><span id="cart-total">0</span>€</span>
-            </div>
-            <button style="width:100%; padding:20px; background:#E85D04; color:#fff; border:none; border-radius:15px; margin-top:20px; font-weight:900; cursor:pointer;">PAGAR CON STRIPE</button>
-        </div>
+        <div id="cart-items" style="margin-top:20px;"></div>
+        <p style="margin-top:20px; font-weight:900;">Total: <span id="cart-total">0</span>€</p>
     </div>
 
     <script src="carrito.js"></script>
