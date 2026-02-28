@@ -1,80 +1,52 @@
-let cart = JSON.parse(localStorage.getItem('deepWorkCart')) || {};
+let cart = JSON.parse(localStorage.getItem('coffeeCart')) || [];
 
-function updateUI() {
-    const container = document.getElementById('cart-items');
-    const countLabel = document.getElementById('cart-count');
-    const totalLabel = document.getElementById('cart-total');
+function updateCartUI() {
+    const cartCount = document.getElementById('cart-count');
+    const cartItems = document.getElementById('cart-items');
+    const cartTotal = document.getElementById('cart-total');
     
-    if (!container || !countLabel || !totalLabel) return;
-
-    container.innerHTML = '';
-    let total = 0;
-    let totalItems = 0;
-
-    Object.keys(cart).forEach(id => {
-        const item = cart[id];
-        const subtotal = item.price * item.quantity;
-        total += subtotal;
-        totalItems += item.quantity;
-
-        // AQUÍ ESTÁN LOS BOTONES + Y -
-        container.innerHTML += `
-            <div style="display:flex; justify-content:space-between; align-items:center; padding:15px 0; border-bottom:1px solid #eee;">
-                <div style="flex:1;">
-                    <strong style="display:block;">${item.name}</strong>
-                    <small>${subtotal}€</small>
+    if (cartCount) cartCount.innerText = cart.reduce((sum, item) => sum + item.quantity, 0);
+    
+    if (cartItems) {
+        cartItems.innerHTML = '';
+        let total = 0;
+        cart.forEach((item, index) => {
+            total += item.price * item.quantity;
+            cartItems.innerHTML += `
+                <div style="display:flex; justify-content:space-between; margin-bottom:15px; border-bottom:1px solid #eee; padding-bottom:10px;">
+                    <div>
+                        <strong>${item.name}</strong><br>
+                        ${item.quantity} x ${item.price}€
+                    </div>
+                    <button onclick="removeFromCart(${index})" style="background:none; border:none; color:red; cursor:pointer;">Eliminar</button>
                 </div>
-                
-                <div style="display:flex; align-items:center; gap:10px; background:#f0f0f0; padding:5px 10px; border-radius:20px;">
-                    <button onclick="changeQty('${id}', -1)" style="border:none; background:none; cursor:pointer; font-weight:bold; width:20px;">-</button>
-                    <span style="font-weight:bold;">${item.quantity}</span>
-                    <button onclick="changeQty('${id}', 1)" style="border:none; background:none; cursor:pointer; font-weight:bold; width:20px;">+</button>
-                </div>
-
-                <button onclick="removeItem('${id}')" style="background:none; border:none; color:red; cursor:pointer; margin-left:10px;">🗑️</button>
-            </div>`;
-    });
-
-    countLabel.innerText = totalItems;
-    totalLabel.innerText = total;
-    localStorage.setItem('deepWorkCart', JSON.stringify(cart));
-
-    if (totalItems === 0) {
-        container.innerHTML = '<p style="text-align:center; color:#888; margin-top:20px;">Carrito vacío</p>';
+            `;
+        });
+        if (cartTotal) cartTotal.innerText = total.toFixed(2);
     }
+    localStorage.setItem('coffeeCart', JSON.stringify(cart));
 }
 
 function addToCart(id, name, price) {
-    const qtyInput = document.getElementById('qty-' + id);
-    const quantityToAdd = qtyInput ? parseInt(qtyInput.value) : 1;
-
-    if (cart[id]) {
-        cart[id].quantity += quantityToAdd;
+    const existing = cart.find(item => item.id === id);
+    if (existing) {
+        existing.quantity += 1;
     } else {
-        cart[id] = { name, price, quantity: quantityToAdd };
+        cart.push({ id, name, price, quantity: 1 });
     }
-    
-    if(qtyInput) qtyInput.value = 1;
-    updateUI();
-    document.getElementById('cart-panel').classList.add('open');
+    updateCartUI();
+    toggleCart(true); // Abre el carrito al añadir
 }
 
-function changeQty(id, delta) {
-    if (cart[id]) {
-        cart[id].quantity += delta;
-        if (cart[id].quantity <= 0) delete cart[id];
-        updateUI();
-    }
+function removeFromCart(index) {
+    cart.splice(index, 1);
+    updateCartUI();
 }
 
-function removeItem(id) {
-    delete cart[id];
-    updateUI();
-}
-
-function toggleCart() {
+function toggleCart(forceOpen = false) {
     const panel = document.getElementById('cart-panel');
-    if(panel) panel.classList.toggle('open');
+    if (forceOpen) panel.classList.add('open');
+    else panel.classList.toggle('open');
 }
 
-document.addEventListener('DOMContentLoaded', updateUI);
+document.addEventListener('DOMContentLoaded', updateCartUI);
