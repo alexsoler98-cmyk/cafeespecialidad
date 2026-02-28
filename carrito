@@ -1,0 +1,51 @@
+// Cargar carrito al iniciar
+let cart = JSON.parse(localStorage.getItem('deepWorkCart')) || {};
+
+function updateUI() {
+    const container = document.getElementById('cart-items');
+    const countLabel = document.getElementById('cart-count');
+    const totalLabel = document.getElementById('cart-total');
+    if (!container || !countLabel || !totalLabel) return;
+
+    container.innerHTML = '';
+    let total = 0;
+    let totalItems = 0;
+
+    Object.keys(cart).forEach(id => {
+        const item = cart[id];
+        total += item.price * item.quantity;
+        totalItems += item.quantity;
+        container.innerHTML += `
+            <div style="display:flex; justify-content:space-between; align-items:center; padding:10px 0; border-bottom:1px solid #eee;">
+                <div><strong>${item.name}</strong><br><small>${item.price * item.quantity}€</small></div>
+                <div style="display:flex; align-items:center; gap:8px;">
+                    <button onclick="changeQty('${id}', -1)" style="width:24px; height:24px; border-radius:50%; border:none; background:#000; color:#fff; cursor:pointer;">-</button>
+                    <span>${item.quantity}</span>
+                    <button onclick="changeQty('${id}', 1)" style="width:24px; height:24px; border-radius:50%; border:none; background:#000; color:#fff; cursor:pointer;">+</button>
+                </div>
+            </div>`;
+    });
+
+    countLabel.innerText = totalItems;
+    totalLabel.innerText = total;
+    localStorage.setItem('deepWorkCart', JSON.stringify(cart));
+}
+
+function addToCart(id, name, price) {
+    const qtyInput = document.getElementById('qty-' + id);
+    const quantity = qtyInput ? parseInt(qtyInput.value) : 1;
+    if (cart[id]) { cart[id].quantity += quantity; } else { cart[id] = { name, price, quantity }; }
+    updateUI();
+    document.getElementById('cart-panel').classList.add('open');
+}
+
+function changeQty(id, delta) {
+    if (cart[id]) {
+        cart[id].quantity += delta;
+        if (cart[id].quantity <= 0) delete cart[id];
+        updateUI();
+    }
+}
+
+function toggleCart() { document.getElementById('cart-panel').classList.toggle('open'); }
+document.addEventListener('DOMContentLoaded', updateUI);
