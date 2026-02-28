@@ -1,106 +1,80 @@
-// Cargar el carrito guardado o empezar uno vacío
 let cart = JSON.parse(localStorage.getItem('deepWorkCart')) || {};
 
-// Función para dibujar el carrito en el panel lateral
 function updateUI() {
     const container = document.getElementById('cart-items');
     const countLabel = document.getElementById('cart-count');
     const totalLabel = document.getElementById('cart-total');
     
-    // Si no encuentra los elementos del carrito, no hace nada (útil para páginas sin carrito visible)
     if (!container || !countLabel || !totalLabel) return;
 
-    container.innerHTML = ''; // Limpia el contenido actual del carrito
+    container.innerHTML = '';
     let total = 0;
     let totalItems = 0;
 
-    // Recorre cada producto en el carrito y lo dibuja
     Object.keys(cart).forEach(id => {
         const item = cart[id];
         const subtotal = item.price * item.quantity;
         total += subtotal;
         totalItems += item.quantity;
 
+        // AQUÍ ESTÁN LOS BOTONES + Y -
         container.innerHTML += `
-            <div class="cart-item">
-                <div class="cart-item-info">
-                    <strong>${item.name}</strong>
-                    <span>${item.price}€ / unidad</span>
+            <div style="display:flex; justify-content:space-between; align-items:center; padding:15px 0; border-bottom:1px solid #eee;">
+                <div style="flex:1;">
+                    <strong style="display:block;">${item.name}</strong>
+                    <small>${subtotal}€</small>
                 </div>
                 
-                <div class="cart-qty-controls">
-                    <button class="qty-btn" onclick="changeQty('${id}', -1)">-</button>
-                    <span class="qty-number">${item.quantity}</span>
-                    <button class="qty-btn" onclick="changeQty('${id}', 1)">+</button>
+                <div style="display:flex; align-items:center; gap:10px; background:#f0f0f0; padding:5px 10px; border-radius:20px;">
+                    <button onclick="changeQty('${id}', -1)" style="border:none; background:none; cursor:pointer; font-weight:bold; width:20px;">-</button>
+                    <span style="font-weight:bold;">${item.quantity}</span>
+                    <button onclick="changeQty('${id}', 1)" style="border:none; background:none; cursor:pointer; font-weight:bold; width:20px;">+</button>
                 </div>
 
-                <button class="delete-btn" onclick="removeItem('${id}')">🗑️</button>
+                <button onclick="removeItem('${id}')" style="background:none; border:none; color:red; cursor:pointer; margin-left:10px;">🗑️</button>
             </div>`;
     });
 
-    // Actualiza los contadores de la interfaz
     countLabel.innerText = totalItems;
     totalLabel.innerText = total;
-
-    // Guarda el carrito en LocalStorage para que persista
     localStorage.setItem('deepWorkCart', JSON.stringify(cart));
 
-    // Mensaje si el carrito está vacío
     if (totalItems === 0) {
-        container.innerHTML = '<p style="text-align:center; color:#888; margin-top:30px;">Tu carrito está vacío</p>';
+        container.innerHTML = '<p style="text-align:center; color:#888; margin-top:20px;">Carrito vacío</p>';
     }
 }
 
-// Función para añadir un producto al carrito
 function addToCart(id, name, price) {
     const qtyInput = document.getElementById('qty-' + id);
-    const btn = document.getElementById('btn-' + id);
-    const quantity = qtyInput ? parseInt(qtyInput.value) : 1; // Obtiene la cantidad del input o 1 por defecto
+    const quantityToAdd = qtyInput ? parseInt(qtyInput.value) : 1;
 
     if (cart[id]) {
-        cart[id].quantity += quantity;
+        cart[id].quantity += quantityToAdd;
     } else {
-        cart[id] = { name, price, quantity };
+        cart[id] = { name, price, quantity: quantityToAdd };
     }
     
-    // Animación de feedback para el botón (si existe)
-    if (btn) {
-        const originalText = btn.innerText;
-        btn.innerText = "¡Añadido! ✓";
-        btn.classList.add('added');
-        setTimeout(() => {
-            btn.innerText = originalText;
-            btn.classList.remove('added');
-        }, 1000);
-    }
-    
-    if(qtyInput) qtyInput.value = 1; // Resetear el selector de la tienda
-    updateUI(); // Redibuja el carrito
-    document.getElementById('cart-panel').classList.add('open'); // Abre el panel del carrito
+    if(qtyInput) qtyInput.value = 1;
+    updateUI();
+    document.getElementById('cart-panel').classList.add('open');
 }
 
-// Función para cambiar la cantidad de un producto en el carrito
 function changeQty(id, delta) {
     if (cart[id]) {
         cart[id].quantity += delta;
-        if (cart[id].quantity <= 0) { // Si la cantidad llega a 0 o menos, elimina el producto
-            delete cart[id];
-        }
-        updateUI(); // Redibuja el carrito
+        if (cart[id].quantity <= 0) delete cart[id];
+        updateUI();
     }
 }
 
-// Función para eliminar un producto completo del carrito
 function removeItem(id) {
     delete cart[id];
-    updateUI(); // Redibuja el carrito
+    updateUI();
 }
 
-// Función para abrir/cerrar el panel del carrito
 function toggleCart() {
     const panel = document.getElementById('cart-panel');
     if(panel) panel.classList.toggle('open');
 }
 
-// Asegura que el carrito se dibuje al cargar la página
 document.addEventListener('DOMContentLoaded', updateUI);
