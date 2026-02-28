@@ -3,109 +3,108 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Deep Work Coffee | Inicio</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&display=swap" rel="stylesheet">
+    <title>Deep Work Coffee | Experience</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
-        /* 1. ESTILOS GLOBALES */
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
-        body { background: #fafafa; color: #333; overflow-x: hidden; }
-        .container { max-width: 1100px; margin: auto; padding: 0 20px; }
+        
+        /* FONDO PRINCIPAL: Degradado elegante y textura sutil */
+        body { 
+            background: linear-gradient(135deg, #1a1a1a 0%, #3d2b1f 100%);
+            background-attachment: fixed;
+            color: #fff; 
+            min-height: 100vh;
+        }
 
-        /* 2. NAVEGACIÓN */
-        nav { background: #fff; padding: 20px 0; border-bottom: 1px solid #eee; position: sticky; top: 0; z-index: 100; }
+        .container { max-width: 1200px; margin: auto; padding: 0 25px; }
+
+        /* NAVEGACIÓN ESTILO GLASSMORPHISM */
+        nav { 
+            background: rgba(255, 255, 255, 0.05); 
+            backdrop-filter: blur(10px);
+            padding: 20px 0; 
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1); 
+            position: sticky; top: 0; z-index: 100; 
+        }
         .nav-inner { display: flex; justify-content: space-between; align-items: center; }
-        .nav-brand { text-decoration: none; color: #000; font-weight: 800; font-size: 22px; }
-        .cart-trigger { cursor: pointer; font-weight: bold; background: #000; color: #fff; padding: 8px 16px; border-radius: 20px; display: flex; align-items: center; gap: 8px; }
+        .nav-brand { text-decoration: none; color: #fff; font-weight: 900; font-size: 24px; letter-spacing: -1px; }
+        .nav-links a { text-decoration: none; color: #ccc; font-weight: 600; margin-right: 20px; transition: 0.3s; }
+        .nav-links a:hover { color: #E85D04; }
+        
+        .cart-trigger { 
+            cursor: pointer; font-weight: bold; background: #E85D04; color: #fff; 
+            padding: 10px 20px; border-radius: 50px; display: flex; align-items: center; gap: 8px;
+            box-shadow: 0 4px 15px rgba(232, 93, 4, 0.3);
+        }
 
-        /* 3. HERO SECTION */
-        .hero { text-align: center; padding: 60px 20px; background: #fff; }
-        .hero h1 { font-size: 45px; font-weight: 800; margin-bottom: 15px; letter-spacing: -1px; }
-        .hero p { font-size: 18px; color: #666; max-width: 600px; margin: auto; }
+        /* HERO SECTION */
+        .hero { text-align: center; padding: 100px 20px; }
+        .hero h1 { 
+            font-size: 64px; font-weight: 900; margin-bottom: 20px; 
+            background: linear-gradient(to right, #fff, #c2a38e);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .hero p { font-size: 20px; color: #bbaea6; max-width: 650px; margin: auto; line-height: 1.6; }
 
-        /* 4. CARRUSEL EXPANDIBLE (ORÍGENES) */
+        /* CARRUSEL EXPANDIBLE */
         .origins-slider {
-            display: flex;
-            gap: 15px;
-            width: 100%;
-            height: 500px;
-            margin: 40px 0;
+            display: flex; gap: 20px; width: 100%; height: 550px; margin: 50px 0;
         }
 
         .origin-card {
-            flex: 1;
-            position: relative;
-            overflow: hidden;
-            border-radius: 25px;
-            cursor: pointer;
-            transition: flex 0.7s cubic-bezier(0.25, 1, 0.5, 1);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            background: #000;
+            flex: 1; position: relative; overflow: hidden; border-radius: 30px;
+            cursor: pointer; transition: flex 0.8s cubic-bezier(0.25, 1, 0.3, 1);
+            border: 1px solid rgba(255,255,255,0.1);
         }
 
-        /* Al pasar el ratón se expande */
-        .origin-card:hover { flex: 4; }
+        .origin-card:hover { flex: 5; }
 
         .origin-bg {
-            position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            object-fit: cover;
-            filter: brightness(0.6);
-            transition: transform 0.6s, filter 0.6s;
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            object-fit: cover; filter: brightness(0.5) grayscale(20%);
+            transition: 0.8s;
         }
 
-        .origin-card:hover .origin-bg { transform: scale(1.05); filter: brightness(0.4); }
+        .origin-card:hover .origin-bg { transform: scale(1.1); filter: brightness(0.6) grayscale(0%); }
 
         .origin-content {
-            position: absolute;
-            bottom: 0; left: 0;
-            width: 100%; padding: 35px;
-            color: #fff; z-index: 2;
+            position: absolute; bottom: 0; left: 0; width: 100%; padding: 40px;
+            background: linear-gradient(transparent, rgba(0,0,0,0.8));
+            z-index: 2;
         }
 
-        .origin-content h2 { font-size: 28px; margin: 10px 0; white-space: nowrap; }
+        .origin-content h2 { font-size: 32px; margin: 10px 0; color: #fff; text-shadow: 0 2px 10px rgba(0,0,0,0.5); }
 
         .origin-history {
-            max-height: 0; opacity: 0;
-            overflow: hidden;
-            transition: max-height 0.6s ease, opacity 0.6s;
-            font-size: 15px; line-height: 1.5; margin-bottom: 20px;
+            max-height: 0; opacity: 0; overflow: hidden;
+            transition: 0.6s; font-size: 16px; color: #ddd; margin-bottom: 25px;
         }
 
         .origin-card:hover .origin-history { max-height: 200px; opacity: 1; }
 
         .btn-probar {
-            display: inline-block; padding: 12px 25px;
-            background: #E85D04; color: #fff;
-            text-decoration: none; border-radius: 50px;
-            font-weight: bold; font-size: 14px;
-            opacity: 0; transform: translateY(10px);
-            transition: 0.4s;
+            display: inline-block; padding: 14px 30px; background: #fff; color: #000;
+            text-decoration: none; border-radius: 50px; font-weight: 800;
+            opacity: 0; transform: translateY(20px); transition: 0.4s;
         }
 
         .origin-card:hover .btn-probar { opacity: 1; transform: translateY(0); }
+        .btn-probar:hover { background: #E85D04; color: #fff; }
 
-        /* 5. BARRA DE MOVIMIENTO */
-        .scroll-bar { width: 100%; height: 4px; background: #ddd; margin-bottom: 60px; border-radius: 10px; position: relative; }
-        .scroll-indicator { position: absolute; height: 100%; width: 33.33%; background: #000; border-radius: 10px; transition: left 0.4s; left: 0; }
+        /* BARRA DE PROGRESO */
+        .scroll-bar { width: 100%; height: 2px; background: rgba(255,255,255,0.1); margin-bottom: 80px; position: relative; }
+        .scroll-indicator { position: absolute; height: 100%; width: 33.33%; background: #E85D04; transition: 0.5s; left: 0; }
 
-        /* 6. PANEL DEL CARRITO */
+        /* PANEL DEL CARRITO */
         #cart-panel {
-            position: fixed; right: -400px; top: 0; width: 350px; height: 100%;
-            background: #fff; box-shadow: -10px 0 30px rgba(0,0,0,0.1);
-            transition: 0.4s; z-index: 1000; padding: 30px;
-            display: flex; flex-direction: column;
+            position: fixed; right: -420px; top: 0; width: 380px; height: 100%;
+            background: #1a1a1a; border-left: 1px solid rgba(255,255,255,0.1);
+            transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1); z-index: 1000; padding: 40px;
+            display: flex; flex-direction: column; color: #fff;
         }
         #cart-panel.open { right: 0; }
-        .cart-items-container { flex-grow: 1; overflow-y: auto; margin-top: 20px; }
-        
-        @media (max-width: 768px) {
-            .origins-slider { flex-direction: column; height: auto; }
-            .origin-card { height: 300px; flex: none; width: 100%; }
-            .origin-card:hover { flex: none; }
-            .origin-history { max-height: 100px; opacity: 1; }
-            .btn-probar { opacity: 1; transform: translateY(0); }
-        }
+        .cart-items-container { flex-grow: 1; overflow-y: auto; margin-top: 30px; }
     </style>
 </head>
 <body>
@@ -113,59 +112,48 @@
     <nav>
         <div class="container nav-inner">
             <a href="index.html" class="nav-brand">DEEP WORK COFFEE</a>
-            <div style="display:flex; align-items:center; gap:25px;">
-                <a href="cafes.html" style="text-decoration:none; color:#333; font-weight:600;">Tienda</a>
-                <div onclick="toggleCart()" class="cart-trigger">🛒 (<span id="cart-count">0</span>)</div>
+            <div class="nav-links">
+                <a href="cafes.html">Tienda</a>
+                <button onclick="toggleCart()" class="cart-trigger">🛒 <span id="cart-count">0</span></button>
             </div>
         </div>
     </nav>
 
     <header class="hero container">
-        <h1>Café para mentes enfocadas</h1>
-        <p>Seleccionamos granos de orígenes únicos para acompañar tus sesiones de trabajo más profundo.</p>
+        <h1>Rituales de Concentración</h1>
+        <p>No es solo café. Es la herramienta para tus horas de trabajo más brillantes. Directo del origen a tu taza.</p>
     </header>
 
     <section class="container">
         <div class="origins-slider">
-            
             <div class="origin-card" onmouseover="moveIndicator(0)">
-                <img src="https://images.unsplash.com/photo-1511537190424-bbbab87ac5eb?auto=format&fit=crop&w=800" class="origin-bg">
+                <img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?q=80&w=2070" class="origin-bg">
                 <div class="origin-content">
-                    <small>LA CUNA DEL CAFÉ</small>
-                    <h2>Etiopía - Yirgacheffe</h2>
-                    <div class="origin-history">
-                        Notas florales de jazmín y un toque cítrico brillante. Es el café más elegante, ideal para empezar la mañana con claridad absoluta.
-                    </div>
-                    <a href="cafes.html" class="btn-probar">Ver en Tienda</a>
+                    <small style="color: #E85D04; font-weight: 800; letter-spacing: 2px;">ETIOPÍA</small>
+                    <h2>Yirgacheffe Floral</h2>
+                    <div class="origin-history">Brillante, cítrico y con alma de jazmín. Perfecto para mentes que necesitan claridad absoluta al amanecer.</div>
+                    <a href="cafes.html" class="btn-probar">AÑADIR AL RITUAL</a>
                 </div>
             </div>
-
             <div class="origin-card" onmouseover="moveIndicator(1)">
-                <img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=800" class="origin-bg">
+                <img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?q=80&w=1887" class="origin-bg">
                 <div class="origin-content">
-                    <small>EL EQUILIBRIO PERFECTO</small>
-                    <h2>Colombia - Huila</h2>
-                    <div class="origin-history">
-                        Cuerpo medio con dulzura de caramelo y frutos rojos. Un clásico de los Andes que nunca falla para mantener la energía constante.
-                    </div>
-                    <a href="cafes.html" class="btn-probar">Ver en Tienda</a>
+                    <small style="color: #E85D04; font-weight: 800; letter-spacing: 2px;">COLOMBIA</small>
+                    <h2>Huila Balance</h2>
+                    <div class="origin-history">Dulzura de caramelo y notas de frutos rojos. El equilibrio necesario para mantener el flujo de trabajo constante.</div>
+                    <a href="cafes.html" class="btn-probar">AÑADIR AL RITUAL</a>
                 </div>
             </div>
-
             <div class="origin-card" onmouseover="moveIndicator(2)">
-                <img src="https://images.unsplash.com/photo-1459755486867-b55449bb39ff?auto=format&fit=crop&w=800" class="origin-bg">
+                <img src="https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?q=80&w=1887" class="origin-bg">
                 <div class="origin-content">
-                    <small>ORGÁNICO Y SALVAJE</small>
-                    <h2>Perú - Cajamarca</h2>
-                    <div class="origin-history">
-                        Notas de chocolate oscuro y nueces. Un café robusto y reconfortante, perfecto para el trabajo creativo de tarde.
-                    </div>
-                    <a href="cafes.html" class="btn-probar">Ver en Tienda</a>
+                    <small style="color: #E85D04; font-weight: 800; letter-spacing: 2px;">PERÚ</small>
+                    <h2>Cajamarca Dark</h2>
+                    <div class="origin-history">Chocolate intenso y nueces. Cuerpo robusto para las sesiones creativas más exigentes de la tarde.</div>
+                    <a href="cafes.html" class="btn-probar">AÑADIR AL RITUAL</a>
                 </div>
             </div>
-
         </div>
-
         <div class="scroll-bar">
             <div id="indicator" class="scroll-indicator"></div>
         </div>
@@ -173,24 +161,23 @@
 
     <div id="cart-panel">
         <div style="display:flex; justify-content:space-between; align-items:center;">
-            <h2 style="font-weight:800;">Tu Pedido</h2>
-            <button onclick="toggleCart()" style="border:none; background:none; font-size:28px; cursor:pointer;">&times;</button>
+            <h2 style="font-weight:900;">TU CESTA</h2>
+            <button onclick="toggleCart()" style="border:none; background:none; font-size:32px; cursor:pointer; color:#fff;">&times;</button>
         </div>
         <div id="cart-items" class="cart-items-container"></div>
-        <div style="border-top:2px solid #eee; padding-top:20px;">
-            <div style="display:flex; justify-content:space-between; font-weight:800; font-size:20px;">
-                <span>Total:</span>
+        <div style="border-top:1px solid rgba(255,255,255,0.1); padding-top:25px;">
+            <div style="display:flex; justify-content:space-between; font-weight:900; font-size:24px;">
+                <span>TOTAL</span>
                 <span><span id="cart-total">0</span>€</span>
             </div>
-            <button onclick="window.location.href='cafes.html'" style="width:100%; padding:16px; background:#000; color:#fff; border:none; border-radius:12px; margin-top:15px; font-weight:bold; cursor:pointer;">Ir a pagar</button>
+            <button onclick="window.location.href='cafes.html'" style="width:100%; padding:20px; background:#E85D04; color:#fff; border:none; border-radius:15px; margin-top:25px; font-weight:900; cursor:pointer; letter-spacing:1px;">FINALIZAR COMPRA</button>
         </div>
     </div>
 
     <script src="carrito.js"></script>
     <script>
         function moveIndicator(index) {
-            const indicator = document.getElementById('indicator');
-            indicator.style.left = (index * 33.33) + '%';
+            document.getElementById('indicator').style.left = (index * 33.33) + '%';
         }
     </script>
 </body>
