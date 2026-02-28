@@ -2,76 +2,142 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Nuestros Cafés - Deep Work Coffee</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Deep Work Coffee</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 
   <style>
+    * { box-sizing: border-box; }
+
     body {
-      margin:0;
-      font-family:'Inter', sans-serif;
-      background:#f5f5f5;
-      color:#111;
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background: #f5f5f5;
+      color: #111;
     }
 
     nav {
-      background:#fff;
-      padding:20px;
-      border-bottom:1px solid #eee;
-    }
-
-    nav a {
-      text-decoration:none;
-      color:#000;
-      font-weight:600;
+      background: #fff;
+      padding: 20px 0;
+      border-bottom: 1px solid #eee;
+      position: sticky;
+      top: 0;
     }
 
     .container {
-      max-width:1100px;
-      margin:auto;
-      padding:80px 20px;
+      max-width: 1100px;
+      margin: auto;
+      padding: 0 20px;
+    }
+
+    .nav-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: #000;
+      margin-left: 20px;
+      font-weight: 600;
+    }
+
+    .hero {
+      background: #fff;
+      padding: 120px 20px;
+      text-align: center;
     }
 
     h1 {
-      text-align:center;
-      margin-bottom:60px;
+      font-size: 44px;
+      margin-bottom: 20px;
     }
 
-    .grid {
-      display:grid;
-      grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-      gap:30px;
+    h2 {
+      font-size: 36px;
+      margin-bottom: 20px;
     }
 
-    .card {
-      background:#fff;
-      padding:30px;
-      border-radius:20px;
-      box-shadow:0 6px 20px rgba(0,0,0,0.05);
-      text-align:center;
-    }
-
-    img {
-      width:100%;
-      height:250px;
-      object-fit:cover;
-      border-radius:16px;
-      margin-bottom:20px;
-    }
-
-    .price {
-      font-weight:700;
-      margin:10px 0;
+    p {
+      color: #555;
+      max-width: 700px;
+      margin: auto;
+      line-height: 1.6;
     }
 
     .btn {
-      display:inline-block;
-      padding:12px 24px;
-      background:#000;
-      color:#fff;
-      text-decoration:none;
-      border-radius:14px;
-      margin-top:10px;
+      display: inline-block;
+      padding: 14px 28px;
+      margin: 25px 10px 0 10px;
+      border-radius: 14px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: 0.3s;
+    }
+
+    .btn-primary {
+      background: #000;
+      color: #fff;
+    }
+
+    .btn-primary:hover {
+      opacity: 0.85;
+    }
+
+    .btn-secondary {
+      border: 1px solid #ccc;
+      background: #fff;
+      color: #000;
+    }
+
+    .hero img {
+      width: 100%;
+      max-width: 900px;
+      height: 420px;
+      object-fit: cover;
+      border-radius: 24px;
+      margin-top: 60px;
+    }
+
+    .section {
+      padding: 80px 20px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px,1fr));
+      gap: 25px;
+      margin-top: 50px;
+    }
+
+    .card {
+      background: #fff;
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.05);
+      text-align: center;
+    }
+
+    .cta {
+      background: #000;
+      color: #fff;
+      text-align: center;
+      padding: 100px 20px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 30px;
+      font-size: 14px;
+      background: #fff;
+      color: #777;
+    }
+
+    @media(max-width:600px){
+      h1 { font-size: 30px; }
+      h2 { font-size: 24px; }
+      .hero img { height: 260px; }
     }
 
   </style>
@@ -79,40 +145,59 @@
 <body>
 
   <nav>
-    <a href="index.html">← Volver al inicio</a>
+    <div class="container nav-inner">
+      <strong>Deep Work Coffee</strong>
+      <div>
+        <a href="cafes.html">Cafés</a>
+        <a href="#info">Info</a>
+      </div>
+    </div>
   </nav>
 
-  <div class="container">
-    <h1>Nuestros Cafés</h1>
+  <!-- Hero -->
+  <section class="hero">
+    <h1>Café de especialidad para gente que teletrabaja</h1>
+    <p>Mejora tu ritual diario de enfoque con energía estable y sabor premium.</p>
 
+    <a href="#info" class="btn btn-secondary">Saber más</a>
+    <img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085">
+  </section>
+
+  <!-- Sección: Nuestra variedad de cafés disponibles -->
+  <section class="section container">
+    <h2 style="text-align:center; margin-bottom:40px;">Nuestra variedad de cafés disponibles</h2>
+    <p style="text-align:center; max-width:700px; margin:auto; color:#555; line-height:1.6;">
+      Descubre nuestra selección de cafés de especialidad, cuidadosamente tostados y seleccionados para ofrecerte el mejor sabor y aroma en cada taza.
+    </p>
+  </section>
+
+  <!-- Info Section -->
+  <section id="info" class="section container">
     <div class="grid">
-
       <div class="card">
-        <img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93">
-        <h3>Blend Enfoque</h3>
-        <p>Tostado medio con notas de chocolate y nuez.</p>
-        <div class="price">14,90€</div>
-        <a href="#" class="btn">Comprar</a>
+        <h3>Energía estable</h3>
+        <p>Sin picos agresivos ni bajones bruscos.</p>
       </div>
-
       <div class="card">
-        <img src="https://images.unsplash.com/photo-1511920170033-f8396924c348">
-        <h3>Origen Colombia</h3>
-        <p>Acidez equilibrada con notas frutales.</p>
-        <div class="price">16,90€</div>
-        <a href="#" class="btn">Comprar</a>
+        <h3>Sabor premium</h3>
+        <p>Notas de chocolate, nuez y equilibrio perfecto.</p>
       </div>
-
       <div class="card">
-        <img src="https://images.unsplash.com/photo-1498804103079-a6351b050096">
-        <h3>Espresso Intenso</h3>
-        <p>Cuerpo fuerte y sabor profundo.</p>
-        <div class="price">13,90€</div>
-        <a href="#" class="btn">Comprar</a>
+        <h3>Ritual de enfoque</h3>
+        <p>Diseñado para sesiones largas de Deep Work.</p>
       </div>
-
     </div>
-  </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta">
+    <h2>Empieza a trabajar con mejor energía</h2>
+    <a href="cafes.html" class="btn btn-secondary">Descubrir cafés</a>
+  </section>
+
+  <footer>
+    © 2026 Deep Work Coffee
+  </footer>
 
 </body>
 </html>
