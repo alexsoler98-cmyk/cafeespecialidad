@@ -3,90 +3,83 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Deep Work Coffee | Inicio</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <title>Deep Work Coffee | Enfoca tu día</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
   <style>
-    * { box-sizing: border-box; }
-    body { margin: 0; font-family: 'Inter', sans-serif; background: #f5f5f5; color: #111; }
-    nav { background: #fff; padding: 20px 0; border-bottom: 1px solid #eee; position: sticky; top: 0; z-index: 100; }
-    .container { max-width: 1100px; margin: auto; padding: 0 20px; }
+    /* ESTILOS BASE */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', sans-serif; background: #f5f5f5; color: #111; overflow-x: hidden; }
+    .container { max-width: 1200px; margin: auto; padding: 0 25px; }
+
+    /* NAVEGACIÓN */
+    nav { background: #fff; padding: 18px 0; border-bottom: 1px solid #eee; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
     .nav-inner { display: flex; justify-content: space-between; align-items: center; }
-    nav a { text-decoration: none; color: #000; margin-left: 20px; font-weight: 600; }
-    .hero { background: #fff; padding: 100px 20px; text-align: center; }
-    h1 { font-size: 44px; margin-bottom: 20px; }
-    .btn { display: inline-block; padding: 14px 28px; border-radius: 14px; text-decoration: none; font-weight: 600; transition: 0.3s; margin-top: 20px; cursor: pointer; }
-    .btn-primary { background: #000; color: #fff; border: none; }
-    
-    /* ESTILOS DEL CARRITO (OCULTO POR DEFECTO) */
-    #cart-panel { position: fixed; right: -420px; top: 0; width: 350px; height: 100%; background: #fff; box-shadow: -10px 0 30px rgba(0,0,0,0.1); transition: 0.4s; z-index: 1000; padding: 30px; display: flex; flex-direction: column; }
-    #cart-panel.open { right: 0; }
-    .cart-trigger { background: #111; color: #fff; padding: 8px 16px; border-radius: 50px; cursor: pointer; display: flex; gap: 8px; align-items: center; }
-  </style>
-</head>
-<body>
+    .nav-brand { font-size: 24px; font-weight: 800; text-decoration: none; color: #000; }
+    .nav-links { display: flex; align-items: center; gap: 30px; }
+    .nav-links a { text-decoration: none; color: #333; font-weight: 600; font-size: 16px; transition: color 0.2s; }
+    .nav-links a:hover { color: #000; }
+    .cart-trigger { background: #000; color: #fff; padding: 10px 20px; border-radius: 50px; cursor: pointer; display: flex; gap: 8px; align-items: center; font-weight: 600; font-size: 15px; transition: background 0.2s; }
+    .cart-trigger:hover { background: #333; }
 
-  <nav>
-    <div class="container nav-inner">
-      <strong>Deep Work Coffee</strong>
-      <div style="display:flex; align-items:center;">
-        <a href="index.html">Inicio</a>
-        <a href="cafes.html" style="margin-right:20px;">Tienda</a>
-        <div class="cart-trigger" onclick="toggleCart()">🛒 <span id="cart-count">0</span></div>
-      </div>
-    </div>
-  </nav>
-
-  <section class="hero">
-    <h1>Café para mentes enfocadas</h1>
-    <p>Optimiza tu jornada con energía constante.</p>
-    <a href="cafes.html" class="btn btn-primary">Ir a la Tienda</a>
-  </section>
-
-  <div id="cart-panel">
-    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
-      <h2>Tu Carrito</h2>
-      <button onclick="toggleCart()" style="border:none; background:none; font-size:24px; cursor:pointer;">&times;</button>
-    </div>
-    <div id="cart-items" style="flex-grow:1; overflow-y:auto;"></div>
-    <div style="border-top: 2px solid #000; padding-top: 20px;">
-      <div style="display:flex; justify-content:space-between; font-weight:bold; font-size:18px;">
-        <span>Total:</span>
-        <span><span id="cart-total">0</span>€</span>
-      </div>
-      <button onclick="window.location.href='https://buy.stripe.com/test_...' " style="width:100%; padding:15px; background:#000; color:#fff; border:none; border-radius:10px; margin-top:15px; cursor:pointer; font-weight:bold;">Finalizar Compra</button>
-    </div>
-  </div>
-
-  <script>
-    // LÓGICA DE PERSISTENCIA
-    let cart = JSON.parse(localStorage.getItem('deepWorkCart')) || {};
-
-    function updateUI() {
-      const container = document.getElementById('cart-items');
-      const countLabel = document.getElementById('cart-count');
-      const totalLabel = document.getElementById('cart-total');
-      container.innerHTML = '';
-      let total = 0; let totalItems = 0;
-
-      Object.keys(cart).forEach(id => {
-        const item = cart[id];
-        total += item.price * item.quantity;
-        totalItems += item.quantity;
-        container.innerHTML += `<div style="display:flex; justify-content:space-between; margin-bottom:15px; border-bottom:1px solid #eee; padding-bottom:10px;">
-          <div><strong>${item.name}</strong><br>${item.price}€ x ${item.quantity}</div>
-          <button onclick="removeItem('${id}')" style="background:none; border:none; color:red; cursor:pointer;">🗑️</button>
-        </div>`;
-      });
-
-      countLabel.innerText = totalItems;
-      totalLabel.innerText = total;
-      localStorage.setItem('deepWorkCart', JSON.stringify(cart));
-      if (totalItems === 0) container.innerHTML = '<p style="color:#888;">Carrito vacío</p>';
+    /* HERO SECTION */
+    .hero {
+      background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1510414434913-9f5a5c0b1156?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D') no-repeat center center/cover;
+      color: #fff;
+      text-align: center;
+      padding: 150px 25px;
+      min-height: 70vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
     }
+    .hero h1 { font-size: 56px; margin-bottom: 20px; font-weight: 800; line-height: 1.2; }
+    .hero p { font-size: 24px; margin-bottom: 40px; max-width: 700px; opacity: 0.9; }
+    .btn-hero {
+      display: inline-block; padding: 16px 35px; border-radius: 12px;
+      background: #E85D04; /* Color vibrante para el botón */
+      color: #fff; text-decoration: none; font-weight: 700;
+      font-size: 18px; transition: transform 0.2s, background 0.2s;
+      border: none; cursor: pointer;
+    }
+    .btn-hero:hover { transform: translateY(-3px); background: #f07424; }
 
-    function removeItem(id) { delete cart[id]; updateUI(); }
-    function toggleCart() { document.getElementById('cart-panel').classList.toggle('open'); }
-    document.addEventListener('DOMContentLoaded', updateUI);
-  </script>
-</body>
-</html>
+    /* SECCIÓN DE PRODUCTOS DESTACADOS (opcional, para la home) */
+    .featured-products { padding: 80px 0; text-align: center; }
+    .featured-products h2 { font-size: 38px; margin-bottom: 50px; font-weight: 800; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
+    .product-card {
+      background: #fff; border-radius: 15px; overflow: hidden;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.08); transition: transform 0.3s;
+      display: flex; flex-direction: column;
+    }
+    .product-card:hover { transform: translateY(-5px); }
+    .product-card img { width: 100%; height: 220px; object-fit: cover; }
+    .product-info { padding: 20px; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; }
+    .product-info h3 { font-size: 22px; margin-bottom: 10px; font-weight: 700; }
+    .product-info p { font-size: 15px; color: #555; margin-bottom: 15px; line-height: 1.6; }
+    .product-price { font-size: 28px; font-weight: 800; color: #E85D04; margin-top: 15px; }
+    .btn-add {
+      background: #000; color: #fff; border: none; padding: 14px;
+      border-radius: 10px; cursor: pointer; font-weight: 600; font-size: 16px;
+      transition: background 0.2s, transform 0.2s; margin-top: 20px;
+    }
+    .btn-add:hover { background: #333; transform: translateY(-2px); }
+    .btn-add.added { background: #28a745; } /* Estilo para la animación de añadido */
+
+    /* PANEL DEL CARRITO (Unificado con cafes.html) */
+    #cart-panel {
+      position: fixed; right: -420px; top: 0; width: 380px; height: 100%;
+      background: #fff; box-shadow: -10px 0 30px rgba(0,0,0,0.1);
+      transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1); z-index: 1000; padding: 40px 25px;
+      display: flex; flex-direction: column;
+    }
+    #cart-panel.open { right: 0; }
+    .cart-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+    .cart-header h2 { font-size: 28px; font-weight: 700; }
+    .cart-close-btn { border:none; background:none; font-size:28px; cursor:pointer; color:#555; }
+    .cart-items-container { flex-grow: 1; overflow-y: auto; margin-top: 20px; }
+    .cart-item { display: flex; justify-content: space-between; align-items: center; padding: 15px 0; border-bottom: 1px solid #eee; }
+    .cart-item-info { display: flex; flex-direction: column; gap: 4px; flex: 1; }
+    .cart-qty-controls { display: flex; align-items: center; gap: 8px; background: #f0f0f0; border-radius: 30px; padding: 4px 12px; border: 1px solid #ddd; }
+    .qty-btn { border: none; background: #000; color: #fff; width: 2
