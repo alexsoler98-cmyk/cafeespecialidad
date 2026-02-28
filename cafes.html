@@ -3,30 +3,31 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tienda | Deep Work Coffee</title>
+  <title>Tienda Dinámica | Deep Work Coffee</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
-    /* ... (Mismos estilos que index.html) ... */
+    /* ... (Tus estilos anteriores) ... */
     * { box-sizing: border-box; }
-    body { margin: 0; font-family: 'Inter', sans-serif; background: #f5f5f5; color: #111; }
+    body { margin: 0; font-family: 'Inter', sans-serif; background: #f5f5f5; }
     nav { background: #fff; padding: 20px 0; border-bottom: 1px solid #eee; position: sticky; top: 0; z-index: 100; }
     .container { max-width: 1100px; margin: auto; padding: 0 20px; }
     .nav-inner { display: flex; justify-content: space-between; align-items: center; }
     nav a { text-decoration: none; color: #000; margin-left: 20px; font-weight: 600; }
-    .section { padding: 60px 20px; }
-    h1 { text-align: center; font-size: 36px; }
-    .subtitle { text-align: center; color: #555; margin-bottom: 50px; }
-    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
-    .product-card { background: #fff; border-radius: 20px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border: 1px solid #eee; transition: 0.3s; }
-    .product-card:hover { transform: translateY(-5px); }
-    .product-img { width: 100%; height: 250px; object-fit: cover; }
-    .product-info { padding: 25px; text-align: center; }
-    .tag { background: #f0f0f0; padding: 4px 10px; border-radius: 8px; font-size: 12px; font-weight: 600; }
-    .price { font-size: 20px; font-weight: 700; margin: 15px 0; }
-    .btn-cart { background: #000; color: #fff; border: none; padding: 12px 20px; border-radius: 10px; font-weight: 600; cursor: pointer; width: 100%; }
-    .cart-btn { background: #eee; padding: 8px 15px; border-radius: 10px; display: flex; align-items: center; gap: 8px; cursor: pointer; }
-    .snipcart-items-count { background: #000; color: #fff; padding: 2px 7px; border-radius: 50%; font-size: 12px; }
-    footer { text-align: center; padding: 30px; background: #fff; color: #777; margin-top: 50px; }
+    
+    /* Estilo del Carrito Flotante */
+    #cart-panel {
+      position: fixed; right: -400px; top: 0; width: 350px; height: 100%;
+      background: #fff; box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+      transition: 0.3s; z-index: 1000; padding: 30px;
+    }
+    #cart-panel.open { right: 0; }
+    .cart-item { display: flex; justify-content: space-between; margin-bottom: 15px; border-bottom: 1px solid #eee; padding-bottom: 10px; }
+    .btn-buy-cart { background: #000; color: #fff; width: 100%; padding: 15px; border: none; border-radius: 10px; cursor: pointer; font-weight: bold; margin-top: 20px; }
+    
+    /* Botones de la tienda */
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-top: 40px;}
+    .product-card { background: #fff; border-radius: 20px; padding: 20px; text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+    .btn-add { background: #000; color: #fff; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; width: 100%; }
   </style>
 </head>
 <body>
@@ -34,68 +35,81 @@
   <nav>
     <div class="container nav-inner">
       <strong>Deep Work Coffee</strong>
-      <div style="display:flex; align-items:center;">
+      <div>
         <a href="index.html">Inicio</a>
-        <a href="cafes.html">Tienda</a>
-        <div class="snipcart-checkout cart-btn" style="margin-left:20px;">
-          🛒 <span class="snipcart-items-count">0</span>
-        </div>
+        <a href="#" onclick="toggleCart()">🛒 Carrito (<span id="cart-count">0</span>)</a>
       </div>
     </div>
   </nav>
 
-  <section class="section container">
-    <h1>Nuestros Cafés</h1>
-    <p class="subtitle">Selección de especialidad para tu ritual diario.</p>
-
+  <div class="container section">
+    <h1>Nuestra Selección</h1>
     <div class="grid">
-      
       <div class="product-card">
-        <img src="https://images.unsplash.com/photo-1559056199-641a0ac8b55e" class="product-img">
-        <div class="product-info">
-          <span class="tag">Origen Único</span>
-          <h3>Etiopía - Yirgacheffe</h3>
-          <p>Notas cítricas, jazmín y té negro.</p>
-          <div class="price">30,00€</div>
-          
-          <button class="snipcart-add-item btn-cart"
-            data-item-id="etiopia-yirgacheffe"
-            data-item-name="Etiopía - Yirgacheffe"
-            data-item-price="30.00"
-            data-item-url="cafes.html"
-            data-item-description="Café de especialidad con notas cítricas.">
-            Añadir al carrito
-          </button>
-        </div>
+        <h3>Etiopía - Yirgacheffe</h3>
+        <p>30.00€</p>
+        <button class="btn-add" onclick="addToCart('Etiopía', 30)">Añadir al carrito</button>
       </div>
-
       <div class="product-card">
-        <img src="https://images.unsplash.com/photo-1611854779393-1b2da9d400fe" class="product-img">
-        <div class="product-info">
-          <span class="tag">Cuerpo Intenso</span>
-          <h3>Brasil - Minas Gerais</h3>
-          <p>Notas de chocolate y avellana.</p>
-          <div class="price">25,00€</div>
-          
-          <button class="snipcart-add-item btn-cart"
-            data-item-id="brasil-minas"
-            data-item-name="Brasil - Minas Gerais"
-            data-item-price="25.00"
-            data-item-url="cafes.html"
-            data-item-description="Cuerpo intenso y notas achocolatadas.">
-            Añadir al carrito
-          </button>
-        </div>
+        <h3>Brasil - Minas Gerais</h3>
+        <p>25.00€</p>
+        <button class="btn-add" onclick="addToCart('Brasil', 25)">Añadir al carrito</button>
       </div>
-
     </div>
-  </section>
+  </div>
 
-  <footer>© 2026 Deep Work Coffee</footer>
+  <div id="cart-panel">
+    <h2>Tu Pedido</h2>
+    <div id="cart-items">
+      </div>
+    <div style="margin-top: 20px; font-weight: bold;"> Total: <span id="cart-total">0</span>€</div>
+    <button class="btn-buy-cart" onclick="checkout()">Pagar ahora con Stripe</button>
+    <button onclick="toggleCart()" style="background:none; border:none; color:red; cursor:pointer; margin-top:10px;">Cerrar</button>
+  </div>
 
-  <script async src="https://cdn.snipcart.com/themes/v3.4.1/default/snipcart.js"></script>
-  <div id="snipcart" data-config-modal-style="side" data-api-key="TU_API_KEY_AQUI" hidden></div>
-  <link rel="stylesheet" href="https://cdn.snipcart.com/themes/v3.4.1/default/snipcart.css" />
+  <script>
+    let cart = [];
+
+    function addToCart(name, price) {
+      cart.push({name, price});
+      updateCartUI();
+      if(!document.getElementById('cart-panel').classList.contains('open')) toggleCart();
+    }
+
+    function toggleCart() {
+      document.getElementById('cart-panel').classList.toggle('open');
+    }
+
+    function updateCartUI() {
+      const itemsDiv = document.getElementById('cart-items');
+      const countSpan = document.getElementById('cart-count');
+      const totalSpan = document.getElementById('cart-total');
+      
+      itemsDiv.innerHTML = '';
+      let total = 0;
+      
+      cart.forEach((item, index) => {
+        total += item.price;
+        itemsDiv.innerHTML += `
+          <div class="cart-item">
+            <span>${item.name}</span>
+            <span>${item.price}€</span>
+          </div>
+        `;
+      });
+      
+      countSpan.innerText = cart.length;
+      totalSpan.innerText = total;
+    }
+
+    function checkout() {
+      if(cart.length === 0) return alert("El carrito está vacío");
+      // Aquí redirigimos a Stripe. 
+      // Para un carrito dinámico real, usarías el "Enlace de pago" de Stripe 
+      // o una sesión de Checkout que acepte múltiples ítems.
+      window.location.href = "https://buy.stripe.com/test_6oUcMX0UMaYsgZMaMB5EY00"; 
+    }
+  </script>
 
 </body>
 </html>
