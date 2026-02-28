@@ -10,19 +10,17 @@
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
         
         body { 
-            /* Color marrón claro / crema orgánico */
             background-color: #f2e8df; 
-            /* Patrón de granos de café dibujados */
             background-image: url('https://www.transparenttextures.com/patterns/coffee-beans.png');
             background-attachment: fixed;
-            color: #3d2b1f; /* Marrón oscuro para el texto */
+            color: #3d2b1f;
             min-height: 100vh;
             overflow-x: hidden;
         }
 
         .container { max-width: 1100px; margin: auto; padding: 0 20px; }
 
-        /* 2. NAVEGACIÓN TRANSPARENTE */
+        /* 2. NAVEGACIÓN */
         nav { 
             background: rgba(255, 255, 255, 0.6); 
             backdrop-filter: blur(10px);
@@ -45,7 +43,7 @@
         .hero h1 { font-size: 50px; font-weight: 900; color: #2c1e1a; margin-bottom: 15px; letter-spacing: -2px; }
         .hero p { font-size: 19px; color: #5a4033; max-width: 600px; margin: auto; }
 
-        /* 4. CARRUSEL EXPANDIBLE (ORÍGENES) */
+        /* 4. CARRUSEL EXPANDIBLE */
         .origins-slider {
             display: flex; gap: 15px; width: 100%; height: 500px; margin: 40px 0;
         }
@@ -57,7 +55,6 @@
             border: 1px solid rgba(255, 255, 255, 0.3);
         }
 
-        /* Al pasar el ratón se hace más grande */
         .origin-card:hover { flex: 4; }
 
         .origin-bg {
@@ -90,7 +87,7 @@
 
         .origin-card:hover .btn-probar { opacity: 1; transform: translateY(0); }
 
-        /* 5. BARRA DE MOVIMIENTO INFERIOR */
+        /* 5. BARRA DE MOVIMIENTO */
         .scroll-bar { width: 100%; height: 3px; background: rgba(61, 43, 31, 0.1); margin-bottom: 60px; position: relative; }
         .scroll-indicator { position: absolute; height: 100%; width: 33.33%; background: #3d2b1f; transition: 0.5s; left: 0; }
 
@@ -98,17 +95,11 @@
         #cart-panel {
             position: fixed; right: -420px; top: 0; width: 380px; height: 100%;
             background: #fff; box-shadow: -10px 0 30px rgba(0,0,0,0.1);
-            transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1); z-index: 1000; padding: 40px;
+            transition: 0.4s; z-index: 1000; padding: 40px;
             display: flex; flex-direction: column;
         }
         #cart-panel.open { right: 0; }
         .cart-items-container { flex-grow: 1; overflow-y: auto; margin-top: 20px; color: #3d2b1f; }
-
-        @media (max-width: 768px) {
-            .origins-slider { flex-direction: column; height: auto; }
-            .origin-card { height: 300px; flex: none; width: 100%; }
-            .origin-card:hover { flex: none; }
-        }
     </style>
 </head>
 <body>
@@ -136,8 +127,8 @@
                 <div class="origin-content">
                     <small style="color: #ffb88c; font-weight: 800;">ÁFRICA</small>
                     <h2>Etiopía Yirgacheffe</h2>
-                    <div class="origin-history">Notas florales de jazmín y un toque cítrico brillante. Claridad mental desde el primer sorbo.</div>
-                    <a href="cafes.html" class="btn-probar">Añadir al Carrito</a>
+                    <div class="origin-history">Notas florales de jazmín y un toque cítrico brillante.</div>
+                    <a href="cafes.html#etiopia" class="btn-probar">Añadir al Carrito</a>
                 </div>
             </div>
 
@@ -146,8 +137,8 @@
                 <div class="origin-content">
                     <small style="color: #ffb88c; font-weight: 800;">COLOMBIA</small>
                     <h2>Huila Balance</h2>
-                    <div class="origin-history">Dulzura de caramelo y notas de frutos rojos. El equilibrio perfecto para tu flujo de trabajo.</div>
-                    <a href="cafes.html" class="btn-probar">Añadir al Carrito</a>
+                    <div class="origin-history">Dulzura de caramelo y notas de frutos rojos.</div>
+                    <a href="cafes.html#colombia" class="btn-probar">Añadir al Carrito</a>
                 </div>
             </div>
 
@@ -156,8 +147,8 @@
                 <div class="origin-content">
                     <small style="color: #ffb88c; font-weight: 800;">PERÚ</small>
                     <h2>Cajamarca Dark</h2>
-                    <div class="origin-history">Chocolate amargo e intenso. Un grano robusto para las tardes de concentración creativa.</div>
-                    <a href="cafes.html" class="btn-probar">Añadir al Carrito</a>
+                    <div class="origin-history">Chocolate amargo e intenso. Cuerpo robusto.</div>
+                    <a href="cafes.html#peru" class="btn-probar">Añadir al Carrito</a>
                 </div>
             </div>
 
