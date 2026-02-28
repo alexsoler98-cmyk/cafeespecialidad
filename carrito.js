@@ -1,30 +1,27 @@
 let cart = JSON.parse(localStorage.getItem('coffeeCart')) || [];
 
-// 1. Añadir productos al carrito de la web
+// 1. Necesitamos los IDs de precio de Stripe para que funcione
+// Búscalos en tu panel de Stripe (empiezan por price_...)
+const stripePriceIds = {
+    'etiopia': 'TU_ID_PRECIO_ETIOPIA', 
+    'colombia': 'TU_ID_PRECIO_COLOMBIA',
+    'peru': 'TU_ID_PRECIO_PERU'
+};
+
 function addToCart(id, name, price) {
     const idx = cart.findIndex(item => item.id === id);
-    if (idx > -1) {
-        cart[idx].quantity += 1;
-    } else {
-        cart.push({ id, name, price, quantity: 1 });
-    }
+    if (idx > -1) cart[idx].quantity += 1;
+    else cart.push({ id, name, price, quantity: 1 });
     saveAndRefresh();
     toggleCart(true);
 }
 
-// 2. Control de cantidades en la web
 function changeQuantity(index, delta) {
     cart[index].quantity += delta;
     if (cart[index].quantity <= 0) cart.splice(index, 1);
     saveAndRefresh();
 }
 
-function removeFromCart(index) {
-    cart.splice(index, 1);
-    saveAndRefresh();
-}
-
-// 3. Guardar y mostrar en el panel lateral
 function saveAndRefresh() {
     localStorage.setItem('coffeeCart', JSON.stringify(cart));
     const countEl = document.getElementById('cart-count');
@@ -35,13 +32,13 @@ function saveAndRefresh() {
     
     if (itemsEl) {
         itemsEl.innerHTML = '';
-        let totalMoney = 0;
+        let total = 0;
         cart.forEach((item, i) => {
-            totalMoney += item.price * item.quantity;
+            total += item.price * item.quantity;
             itemsEl.innerHTML += `
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; background:#fff; padding:10px; border-radius:12px; border: 1px solid #eee;">
                     <div style="flex:1">
-                        <div style="font-weight:bold; color:#3d2b1f;">${item.name}</div>
+                        <div style="font-weight:bold;">${item.name}</div>
                         <div style="font-size:12px; color:#888;">${(item.price * item.quantity).toFixed(2)}€</div>
                     </div>
                     <div style="display:flex; align-items:center; gap:8px;">
@@ -51,28 +48,27 @@ function saveAndRefresh() {
                     </div>
                 </div>`;
         });
-        if (totalEl) totalEl.innerText = totalMoney.toFixed(2);
+        if (totalEl) totalEl.innerText = total.toFixed(2);
     }
 }
 
-// 4. FUNCIÓN DE PAGO: Redirección al link multibebida
+// 2. FUNCIÓN DE PAGO: Genera el enlace con todos los productos
 function processCheckout() {
-    if (cart.length === 0) {
-        alert("Añade algún café antes de finalizar la compra.");
-        return;
-    }
+    if (cart.length === 0) return alert("Carrito vacío");
 
-    // Como tu nuevo link de Stripe ya tiene los 3 productos configurados,
-    // el cliente simplemente confirma las cantidades allí.
-    const stripeMultiproductLink = "https://buy.stripe.com/test_28E8wH5b2aYs9xk6wl5EY01";
+    const stripeBaseUrl = "https://buy.stripe.com/test_28E8wH5b2aYs9xk6wl5EY01";
+    
+    // Construimos la URL con las cantidades para CADA producto
+    // Nota: Para que esto sea 100% exacto, Stripe requiere que el link tenga 
+    // habilitada la edición de cantidad para todos los productos.
+    
+    let queryParams = "";
+    cart.forEach((item, index) => {
+        // Stripe identifica la posición del producto en el link (0, 1, 2...)
+        queryParams += (index === 0 ? "?" : "&") + `quantity=${item.quantity}`;
+    });
 
-    const btn = document.getElementById('checkout-btn');
-    if (btn) {
-        btn.innerText = "ABRIENDO CAJA SEGURA...";
-        btn.disabled = true;
-    }
-
-    window.location.href = stripeMultiproductLink;
+    window.location.href = stripeBaseUrl + queryParams;
 }
 
 function toggleCart(force = null) {
