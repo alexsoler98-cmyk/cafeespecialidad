@@ -1,121 +1,172 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>Deep Work Coffee | Nuestra Historia</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&display=swap" rel="stylesheet">
-    <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
-        body { background: #fafafa; color: #333; line-height: 1.6; }
+<style>
+    /* CONTENEDOR DEL SLIDER */
+    .origins-slider {
+        display: flex;
+        gap: 15px;
+        width: 100%;
+        height: 550px; /* Ajusta la altura según prefieras */
+        margin: 40px 0;
+    }
+
+    /* CADA TARJETA DE CAFÉ */
+    .origin-card {
+        flex: 1; /* Todos empiezan igual de tamaño */
+        position: relative;
+        overflow: hidden;
+        border-radius: 25px;
+        cursor: pointer;
+        transition: flex 0.6s cubic-bezier(0.25, 1, 0.5, 1), transform 0.3s;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        background: #fff;
+    }
+
+    /* EL EFECTO: AL SELECCIONAR (O HOVER) SE HACE GRANDE */
+    .origin-card:hover, .origin-card.active {
+        flex: 3; /* El seleccionado se vuelve 3 veces más ancho */
+    }
+
+    /* IMAGEN DE FONDO */
+    .origin-bg {
+        position: absolute;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        object-fit: cover;
+        filter: brightness(0.7); /* Oscurece un poco para leer el texto */
+        transition: transform 0.6s;
+    }
+
+    .origin-card:hover .origin-bg {
+        transform: scale(1.1);
+        filter: brightness(0.5);
+    }
+
+    /* TEXTO DENTRO DE LA TARJETA */
+    .origin-content {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        padding: 40px;
+        color: #fff;
+        z-index: 2;
+        /* El texto se oculta un poco cuando la tarjeta es pequeña */
+        opacity: 0.8;
+        transition: opacity 0.4s;
+    }
+
+    .origin-card:hover .origin-content {
+        opacity: 1;
+    }
+
+    .origin-content h2 {
+        font-size: 28px;
+        margin-bottom: 10px;
+        white-space: nowrap; /* Evita que el título se corte */
+    }
+
+    /* LA HISTORIA: Solo se ve cuando la tarjeta está grande */
+    .origin-history {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.6s ease, opacity 0.6s;
+        opacity: 0;
+        font-size: 16px;
+        margin-top: 15px;
+    }
+
+    .origin-card:hover .origin-history {
+        max-height: 300px;
+        opacity: 1;
+    }
+
+    .btn-probar {
+        display: inline-block;
+        margin-top: 20px;
+        padding: 10px 20px;
+        background: #E85D04;
+        color: #fff;
+        text-decoration: none;
+        border-radius: 50px;
+        font-weight: bold;
+        transform: translateY(20px);
+        opacity: 0;
+        transition: 0.4s;
+    }
+
+    .origin-card:hover .btn-probar {
+        transform: translateY(0);
+        opacity: 1;
+    }
+
+    /* BARRA DE PROGRESO INFERIOR (Opcional, decorativa) */
+    .scroll-bar {
+        width: 100%;
+        height: 4px;
+        background: #ddd;
+        margin-top: 20px;
+        border-radius: 10px;
+        position: relative;
+    }
+    .scroll-indicator {
+        position: absolute;
+        height: 100%;
+        width: 33.33%;
+        background: #000;
+        border-radius: 10px;
+        transition: left 0.4s;
+        left: 0;
+    }
+</style>
+
+<section class="container">
+    <div class="origins-slider">
         
-        /* NAVEGACIÓN */
-        nav { background: #fff; padding: 20px 0; border-bottom: 1px solid #eee; position: sticky; top: 0; z-index: 100; }
-        .container { max-width: 1100px; margin: auto; padding: 0 20px; display: flex; justify-content: space-between; align-items: center; }
-        .nav-brand { text-decoration: none; color: #000; font-weight: 800; font-size: 22px; }
-        .cart-trigger { cursor: pointer; font-weight: bold; background: #000; color: #fff; padding: 8px 16px; border-radius: 20px; }
-
-        /* HERO */
-        .hero { text-align: center; padding: 80px 20px; background: #fff; }
-        .hero h1 { font-size: 50px; font-weight: 800; margin-bottom: 15px; }
-        .hero p { font-size: 20px; color: #666; max-width: 700px; margin: auto; }
-
-        /* SECCIÓN HISTORIA / ORÍGENES */
-        .origins { padding: 60px 20px; }
-        .origin-card { 
-            display: flex; align-items: center; gap: 40px; margin-bottom: 60px; 
-            background: #fff; border-radius: 20px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-        }
-        .origin-card:nth-child(even) { flex-direction: row-reverse; }
-        .origin-image { flex: 1; height: 400px; overflow: hidden; }
-        .origin-image img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; }
-        .origin-image img:hover { transform: scale(1.05); }
-        .origin-text { flex: 1; padding: 40px; }
-        .origin-text h2 { font-size: 32px; margin-bottom: 15px; color: #000; }
-        .origin-text p { font-size: 17px; color: #555; margin-bottom: 20px; }
-        .tag { background: #f0f0f0; padding: 5px 12px; border-radius: 15px; font-size: 13px; font-weight: bold; text-transform: uppercase; }
-
-        /* PANEL CARRITO */
-        #cart-panel { position: fixed; right: -400px; top: 0; width: 350px; height: 100%; background: #fff; box-shadow: -5px 0 15px rgba(0,0,0,0.1); transition: 0.3s; z-index: 1000; padding: 20px; display: flex; flex-direction: column; }
-        #cart-panel.open { right: 0; }
-
-        @media (max-width: 768px) {
-            .origin-card, .origin-card:nth-child(even) { flex-direction: column; }
-            .hero h1 { font-size: 36px; }
-        }
-    </style>
-</head>
-<body>
-
-<nav>
-    <div class="container">
-        <a href="index.html" class="nav-brand">DEEP WORK COFFEE</a>
-        <div style="display:flex; align-items:center; gap:20px;">
-            <a href="cafes.html" style="text-decoration:none; color:#000; font-weight:600;">Tienda</a>
-            <div onclick="toggleCart()" class="cart-trigger">🛒 (<span id="cart-count">0</span>)</div>
+        <div class="origin-card" onmouseover="moveIndicator(0)">
+            <img src="https://images.unsplash.com/photo-1511537190424-bbbab87ac5eb?auto=format&fit=crop&w=800" class="origin-bg">
+            <div class="origin-content">
+                <span class="tag" style="color:#fff; border:1px solid #fff; padding:2px 8px; border-radius:10px; font-size:10px;">ETIOPÍA</span>
+                <h2>Yirgacheffe</h2>
+                <div class="origin-history">
+                    Se dice que en los bosques de Etiopía nació el café. Un perfil floral que recuerda al jazmín con notas brillantes de limón. Ideal para claridad mental.
+                </div>
+                <a href="cafes.html" class="btn-probar">Probar ahora</a>
+            </div>
         </div>
-    </div>
-</nav>
 
-<header class="hero">
-    <h1>Granos con Historia</h1>
-    <p>Viajamos a las mejores fincas del mundo para traerte café que no solo despierta, sino que inspira.</p>
-</header>
+        <div class="origin-card active" onmouseover="moveIndicator(1)">
+            <img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=800" class="origin-bg">
+            <div class="origin-content">
+                <span class="tag" style="color:#fff; border:1px solid #fff; padding:2px 8px; border-radius:10px; font-size:10px;">COLOMBIA</span>
+                <h2>Huila Supremo</h2>
+                <div class="origin-history">
+                    Equilibrio perfecto en el corazón de los Andes. Notas de caramelo y frutos rojos con un postgusto limpio y dulce.
+                </div>
+                <a href="cafes.html" class="btn-probar">Probar ahora</a>
+            </div>
+        </div>
 
-<section class="container origins">
-    
-    <div class="origin-card">
-        <div class="origin-image">
-            <img src="https://images.unsplash.com/photo-1511537190424-bbbab87ac5eb?auto=format&fit=crop&w=800" alt="Café Etiopía">
+        <div class="origin-card" onmouseover="moveIndicator(2)">
+            <img src="https://images.unsplash.com/photo-1459755486867-b55449bb39ff?auto=format&fit=crop&w=800" class="origin-bg">
+            <div class="origin-content">
+                <span class="tag" style="color:#fff; border:1px solid #fff; padding:2px 8px; border-radius:10px; font-size:10px;">PERÚ</span>
+                <h2>Cajamarca</h2>
+                <div class="origin-history">
+                    Orgánico y robusto. Chocolate oscuro y nueces tostadas. El compañero ideal para las tardes de trabajo profundo.
+                </div>
+                <a href="cafes.html" class="btn-probar">Probar ahora</a>
+            </div>
         </div>
-        <div class="origin-text">
-            <span class="tag">La Cuna del Café</span>
-            <h2>Etiopía - Yirgacheffe</h2>
-            <p>Se dice que en los bosques de Etiopía nació el café. Nuestro Yirgacheffe se cultiva a gran altura, recolectado a mano por familias locales. Es famoso por su elegancia: un perfil floral que recuerda al jazmín con notas brillantes de limón. Es el café favorito para quienes buscan claridad mental absoluta.</p>
-            <a href="cafes.html" style="color:#000; font-weight:bold;">Probar Etiopía →</a>
-        </div>
+
     </div>
 
-    <div class="origin-card">
-        <div class="origin-image">
-            <img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=800" alt="Café Colombia">
-        </div>
-        <div class="origin-text">
-            <span class="tag">El Equilibrio Perfecto</span>
-            <h2>Colombia - Huila</h2>
-            <p>En el corazón de los Andes colombianos, el clima volcánico y el sol tropical crean un grano equilibrado y dulce. La historia de nuestro Huila es la de caficultores apasionados que han perfeccionado el lavado del grano. Espera notas de caramelo y frutos rojos con un postgusto limpio.</p>
-            <a href="cafes.html" style="color:#000; font-weight:bold;">Probar Colombia →</a>
-        </div>
+    <div class="scroll-bar">
+        <div id="indicator" class="scroll-indicator"></div>
     </div>
-
-    <div class="origin-card">
-        <div class="origin-image">
-            <img src="https://images.unsplash.com/photo-1459755486867-b55449bb39ff?auto=format&fit=crop&w=800" alt="Café Perú">
-        </div>
-        <div class="origin-text">
-            <span class="tag">Orgánico y Salvaje</span>
-            <h2>Perú - Cajamarca</h2>
-            <p>Nuestro café peruano proviene de las tierras altas de Cajamarca. Es un café con alma protectora, cultivado bajo sombra y de forma totalmente orgánica. Su perfil es robusto pero reconfortante: chocolate oscuro y nueces tostadas. Es el compañero ideal para las tardes de trabajo profundo y creativo.</p>
-            <a href="cafes.html" style="color:#000; font-weight:bold;">Probar Perú →</a>
-        </div>
-    </div>
-
 </section>
 
-<div id="cart-panel">
-    <div style="display:flex; justify-content:space-between; align-items:center;">
-        <h2 style="font-weight:800;">Tu Pedido</h2>
-        <button onclick="toggleCart()" style="border:none; background:none; font-size:24px; cursor:pointer;">&times;</button>
-    </div>
-    <div id="cart-items" style="flex-grow:1; overflow-y:auto; margin-top:20px;"></div>
-    <div style="border-top:2px solid #eee; padding-top:20px;">
-        <div style="display:flex; justify-content:space-between; font-weight:800; font-size:20px;">
-            <span>Total:</span>
-            <span><span id="cart-total">0</span>€</span>
-        </div>
-        <button onclick="window.location.href='cafes.html'" style="width:100%; padding:15px; background:#000; color:#fff; border:none; border-radius:10px; margin-top:15px; font-weight:bold; cursor:pointer;">Ir a la tienda</button>
-    </div>
-</div>
-
-<script src="carrito.js"></script>
-</body>
-</html>
+<script>
+    function moveIndicator(index) {
+        const indicator = document.getElementById('indicator');
+        indicator.style.left = (index * 33.33) + '%';
+    }
+</script>
