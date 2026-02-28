@@ -6,28 +6,26 @@
   <title>Deep Work Coffee | Inicio</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
+    /* ESTILOS BASE */
     * { box-sizing: border-box; }
-    body { margin: 0; font-family: 'Inter', sans-serif; background: #f5f5f5; color: #111; scroll-behavior: smooth; }
+    body { margin: 0; font-family: 'Inter', sans-serif; background: #f5f5f5; color: #111; }
     nav { background: #fff; padding: 20px 0; border-bottom: 1px solid #eee; position: sticky; top: 0; z-index: 100; }
     .container { max-width: 1100px; margin: auto; padding: 0 20px; }
     .nav-inner { display: flex; justify-content: space-between; align-items: center; }
     nav a { text-decoration: none; color: #000; margin-left: 20px; font-weight: 600; }
     .hero { background: #fff; padding: 100px 20px; text-align: center; }
-    h1 { font-size: 44px; margin-bottom: 20px; }
-    p { color: #555; max-width: 700px; margin: auto; line-height: 1.6; }
-    .btn { display: inline-block; padding: 14px 28px; margin: 25px 10px 0 10px; border-radius: 14px; text-decoration: none; font-weight: 600; transition: 0.3s; cursor: pointer; border:none; }
+    .btn { display: inline-block; padding: 14px 28px; border-radius: 14px; text-decoration: none; font-weight: 600; transition: 0.3s; margin-top: 20px;}
     .btn-primary { background: #000; color: #fff; }
-    .btn-secondary { border: 1px solid #ccc; background: #fff; color: #000; }
-    .hero img { width: 100%; max-width: 900px; height: 420px; object-fit: cover; border-radius: 24px; margin-top: 60px; }
-    .section { padding: 80px 20px; }
-    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px,1fr)); gap: 25px; margin-top: 50px; }
-    .card { background: #fff; padding: 30px; border-radius: 20px; box-shadow: 0 6px 20px rgba(0,0,0,0.05); text-align: center; }
-    .cta { background: #000; color: #fff; text-align: center; padding: 100px 20px; }
-    footer { text-align: center; padding: 30px; font-size: 14px; background: #fff; color: #777; }
-    
-    /* Estilo del contador del carrito */
-    .cart-btn { background: #eee; padding: 8px 15px; border-radius: 10px; display: flex; align-items: center; gap: 8px; cursor: pointer; }
-    .snipcart-items-count { background: #000; color: #fff; padding: 2px 7px; border-radius: 50%; font-size: 12px; }
+
+    /* ESTILOS DEL CARRITO (IGUALES A CAFES.HTML) */
+    #cart-panel { position: fixed; right: -420px; top: 0; width: 380px; height: 100%; background: #fff; box-shadow: -10px 0 30px rgba(0,0,0,0.1); transition: 0.4s; z-index: 1000; padding: 40px 25px; display: flex; flex-direction: column; }
+    #cart-panel.open { right: 0; }
+    .cart-items-container { flex-grow: 1; overflow-y: auto; }
+    .cart-item { display: flex; justify-content: space-between; align-items: center; padding: 15px 0; border-bottom: 1px solid #eee; }
+    .cart-qty-controls { display: flex; align-items: center; gap: 8px; background: #f0f0f0; border-radius: 30px; padding: 4px 12px; }
+    .qty-btn { border: none; background: #000; color: #fff; width: 24px; height: 24px; border-radius: 50%; cursor: pointer; font-weight: bold; }
+    .cart-trigger { background: #111; color: #fff; padding: 8px 18px; border-radius: 50px; cursor: pointer; display: flex; gap: 8px; align-items: center; }
+    .btn-checkout { background: #000; color: #fff; width: 100%; padding: 18px; border: none; border-radius: 12px; font-weight: 700; cursor: pointer; margin-top: 20px; }
   </style>
 </head>
 <body>
@@ -38,48 +36,73 @@
       <div style="display:flex; align-items:center;">
         <a href="index.html">Inicio</a>
         <a href="cafes.html">Tienda</a>
-        <div class="snipcart-checkout cart-btn" style="margin-left:20px;">
-          🛒 <span class="snipcart-items-count">0</span>
-        </div>
+        <div class="cart-trigger" onclick="toggleCart()">🛒 <span id="cart-count">0</span></div>
       </div>
     </div>
   </nav>
 
   <section class="hero">
-    <h1>Café de especialidad para mentes enfocadas</h1>
-    <p>Optimiza tus sesiones de trabajo profundo con energía constante y sabor premium.</p>
-    <a href="cafes.html" class="btn btn-primary">Ver Catálogo</a>
-    <a href="#info" class="btn btn-secondary">Saber más</a>
-    <img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085" alt="Café de especialidad">
+    <h1>Optimiza tu enfoque</h1>
+    <p>Café de especialidad diseñado para sesiones de trabajo profundo.</p>
+    <a href="cafes.html" class="btn btn-primary">Ir a la tienda</a>
   </section>
 
-  <section id="info" class="section container">
-    <div class="grid">
-      <div class="card">
-        <h3>⚡ Energía estable</h3>
-        <p>Sin picos agresivos ni bajones bruscos durante tu jornada.</p>
-      </div>
-      <div class="card">
-        <h3>🍫 Sabor premium</h3>
-        <p>Notas equilibradas seleccionadas para paladares exigentes.</p>
-      </div>
-      <div class="card">
-        <h3>🧠 Ritual de enfoque</h3>
-        <p>El combustible perfecto para tus sesiones de Deep Work.</p>
-      </div>
+  <div id="cart-panel">
+    <div style="display:flex; justify-content:space-between; align-items:center;">
+      <h2>Tu Carrito</h2>
+      <button onclick="toggleCart()" style="border:none; background:none; font-size:28px; cursor:pointer;">&times;</button>
     </div>
-  </section>
+    <div id="cart-items" class="cart-items-container"></div>
+    <div style="border-top: 2px solid #111; padding-top: 20px;">
+      <div style="display:flex; justify-content:space-between; font-size:20px; font-weight:700;">
+        <span>Total:</span>
+        <span><span id="cart-total">0</span>€</span>
+      </div>
+      <button class="btn-checkout" onclick="window.location.href='https://buy.stripe.com/test_6oUcMX0UMaYsgZMaMB5EY00'">Finalizar Compra</button>
+    </div>
+  </div>
 
-  <section class="cta">
-    <h2>Empieza a trabajar con mejor energía</h2>
-    <a href="cafes.html" class="btn btn-secondary">Descubrir cafés</a>
-  </section>
+  <script>
+    // LÓGICA DE MEMORIA (LOCALSTORAGE)
+    let cart = JSON.parse(localStorage.getItem('deepWorkCart')) || {};
 
-  <footer>© 2026 Deep Work Coffee</footer>
+    function updateUI() {
+      const container = document.getElementById('cart-items');
+      const countLabel = document.getElementById('cart-count');
+      const totalLabel = document.getElementById('cart-total');
+      container.innerHTML = '';
+      let total = 0; let totalItems = 0;
 
-  <script async src="https://cdn.snipcart.com/themes/v3.4.1/default/snipcart.js"></script>
-  <div id="snipcart" data-config-modal-style="side" data-api-key="TU_API_KEY_AQUI" hidden></div>
-  <link rel="stylesheet" href="https://cdn.snipcart.com/themes/v3.4.1/default/snipcart.css" />
+      Object.keys(cart).forEach(id => {
+        const item = cart[id];
+        total += item.price * item.quantity;
+        totalItems += item.quantity;
+        container.innerHTML += `
+          <div class="cart-item">
+            <div><strong>${item.name}</strong><br><small>${item.price * item.quantity}€</small></div>
+            <div class="cart-qty-controls">
+              <button class="qty-btn" onclick="changeQty('${id}', -1)">-</button>
+              <span>${item.quantity}</span>
+              <button class="qty-btn" onclick="changeQty('${id}', 1)">+</button>
+            </div>
+          </div>`;
+      });
+      countLabel.innerText = totalItems;
+      totalLabel.innerText = total;
+      localStorage.setItem('deepWorkCart', JSON.stringify(cart));
+      if (totalItems === 0) container.innerHTML = '<p style="text-align:center; color:#888;">Carrito vacío</p>';
+    }
 
+    function changeQty(id, delta) {
+      if (cart[id]) {
+        cart[id].quantity += delta;
+        if (cart[id].quantity <= 0) delete cart[id];
+        updateUI();
+      }
+    }
+
+    function toggleCart() { document.getElementById('cart-panel').classList.toggle('open'); }
+    document.addEventListener('DOMContentLoaded', updateUI);
+  </script>
 </body>
 </html>
