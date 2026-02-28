@@ -6,6 +6,7 @@
   <title>Tienda | Deep Work Coffee</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
+    /* ... (Mismos estilos que index.html) ... */
     * { box-sizing: border-box; }
     body { margin: 0; font-family: 'Inter', sans-serif; background: #f5f5f5; color: #111; }
     nav { background: #fff; padding: 20px 0; border-bottom: 1px solid #eee; position: sticky; top: 0; z-index: 100; }
@@ -16,11 +17,15 @@
     h1 { text-align: center; font-size: 36px; }
     .subtitle { text-align: center; color: #555; margin-bottom: 50px; }
     .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
-    .product-card { background: #fff; border-radius: 20px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border: 1px solid #eee; }
+    .product-card { background: #fff; border-radius: 20px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border: 1px solid #eee; transition: 0.3s; }
+    .product-card:hover { transform: translateY(-5px); }
     .product-img { width: 100%; height: 250px; object-fit: cover; }
     .product-info { padding: 25px; text-align: center; }
     .tag { background: #f0f0f0; padding: 4px 10px; border-radius: 8px; font-size: 12px; font-weight: 600; }
     .price { font-size: 20px; font-weight: 700; margin: 15px 0; }
+    .btn-cart { background: #000; color: #fff; border: none; padding: 12px 20px; border-radius: 10px; font-weight: 600; cursor: pointer; width: 100%; }
+    .cart-btn { background: #eee; padding: 8px 15px; border-radius: 10px; display: flex; align-items: center; gap: 8px; cursor: pointer; }
+    .snipcart-items-count { background: #000; color: #fff; padding: 2px 7px; border-radius: 50%; font-size: 12px; }
     footer { text-align: center; padding: 30px; background: #fff; color: #777; margin-top: 50px; }
   </style>
 </head>
@@ -29,9 +34,12 @@
   <nav>
     <div class="container nav-inner">
       <strong>Deep Work Coffee</strong>
-      <div>
+      <div style="display:flex; align-items:center;">
         <a href="index.html">Inicio</a>
         <a href="cafes.html">Tienda</a>
+        <div class="snipcart-checkout cart-btn" style="margin-left:20px;">
+          🛒 <span class="snipcart-items-count">0</span>
+        </div>
       </div>
     </div>
   </nav>
@@ -43,41 +51,51 @@
     <div class="grid">
       
       <div class="product-card">
-        <img src="https://images.unsplash.com/photo-1559056199-641a0ac8b55e" class="product-img" alt="Café Etiopía">
+        <img src="https://images.unsplash.com/photo-1559056199-641a0ac8b55e" class="product-img">
         <div class="product-info">
           <span class="tag">Origen Único</span>
           <h3>Etiopía - Yirgacheffe</h3>
-          <p>Notas cítricas, jazmín y té negro. Frescura garantizada.</p>
+          <p>Notas cítricas, jazmín y té negro.</p>
           <div class="price">30,00€</div>
           
-          <div style="margin-top: 20px;">
-            <script async src="https://js.stripe.com/v3/buy-button.js"></script>
-            <stripe-buy-button
-              buy-button-id="buy_btn_1T5rNY17UmfJSc5LDo0FOnru"
-              publishable-key="pk_test_51T5rH717UmfJSc5LsvNrQRTKHYzJpnNg3Hs2HK3a57SxjzElZubxip2ojudgIKVOlZ5bPFzYPqOpRzeg6P0ThfiD00C1WmXV8i"
-            >
-            </stripe-buy-button>
-          </div>
+          <button class="snipcart-add-item btn-cart"
+            data-item-id="etiopia-yirgacheffe"
+            data-item-name="Etiopía - Yirgacheffe"
+            data-item-price="30.00"
+            data-item-url="cafes.html"
+            data-item-description="Café de especialidad con notas cítricas.">
+            Añadir al carrito
+          </button>
         </div>
       </div>
 
-      <div class="product-card" style="border: 2px solid #000;">
-        <img src="https://images.unsplash.com/photo-1580915411954-282cb1b0d780" class="product-img" alt="Suscripción">
+      <div class="product-card">
+        <img src="https://images.unsplash.com/photo-1611854779393-1b2da9d400fe" class="product-img">
         <div class="product-info">
-          <span class="tag" style="background: #000; color: #fff;">Suscripción</span>
-          <h3>Club Deep Work</h3>
-          <p>Recibe café fresco automáticamente cada mes en tu casa.</p>
-          <div class="price">Próximamente</div>
-          <p style="font-size: 13px; color: #888;">Estamos preparando la mejor experiencia recurrente para ti.</p>
+          <span class="tag">Cuerpo Intenso</span>
+          <h3>Brasil - Minas Gerais</h3>
+          <p>Notas de chocolate y avellana.</p>
+          <div class="price">25,00€</div>
+          
+          <button class="snipcart-add-item btn-cart"
+            data-item-id="brasil-minas"
+            data-item-name="Brasil - Minas Gerais"
+            data-item-price="25.00"
+            data-item-url="cafes.html"
+            data-item-description="Cuerpo intenso y notas achocolatadas.">
+            Añadir al carrito
+          </button>
         </div>
       </div>
 
     </div>
   </section>
 
-  <footer>
-    © 2026 Deep Work Coffee
-  </footer>
+  <footer>© 2026 Deep Work Coffee</footer>
+
+  <script async src="https://cdn.snipcart.com/themes/v3.4.1/default/snipcart.js"></script>
+  <div id="snipcart" data-config-modal-style="side" data-api-key="TU_API_KEY_AQUI" hidden></div>
+  <link rel="stylesheet" href="https://cdn.snipcart.com/themes/v3.4.1/default/snipcart.css" />
 
 </body>
 </html>
