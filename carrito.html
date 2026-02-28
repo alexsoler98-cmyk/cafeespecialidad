@@ -1,0 +1,73 @@
+// 1. Cargar el carrito desde el almacenamiento del navegador
+let cart = JSON.parse(localStorage.getItem('coffeeCart')) || [];
+
+// 2. Función para añadir productos
+function addToCart(id, name, price) {
+    // Buscamos si el producto ya está en el carrito
+    const itemIndex = cart.findIndex(item => item.id === id);
+
+    if (itemIndex > -1) {
+        // Si ya existe, sumamos uno a la cantidad
+        cart[itemIndex].quantity += 1;
+    } else {
+        // Si es nuevo, lo añadimos
+        cart.push({ id, name, price, quantity: 1 });
+    }
+
+    // Guardamos y actualizamos la vista
+    saveAndRefresh();
+    
+    // Abrimos el carrito para que el usuario vea que se añadió
+    const panel = document.getElementById('cart-panel');
+    if(panel) panel.classList.add('open');
+}
+
+// 3. Función para borrar productos
+function removeFromCart(index) {
+    cart.splice(index, 1);
+    saveAndRefresh();
+}
+
+// 4. Guardar en memoria y actualizar la pantalla
+function saveAndRefresh() {
+    localStorage.setItem('coffeeCart', JSON.stringify(cart));
+    
+    // Actualizar el numerito del icono del carrito
+    const cartCount = document.getElementById('cart-count');
+    if (cartCount) {
+        cartCount.innerText = cart.reduce((total, item) => total + item.quantity, 0);
+    }
+
+    // Actualizar la lista dentro del panel
+    const cartItems = document.getElementById('cart-items');
+    const cartTotal = document.getElementById('cart-total');
+    
+    if (cartItems) {
+        cartItems.innerHTML = '';
+        let totalSum = 0;
+
+        cart.forEach((item, index) => {
+            totalSum += item.price * item.quantity;
+            cartItems.innerHTML += `
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px; background:#f9f9f9; padding:10px; border-radius:10px; color:#333;">
+                    <div>
+                        <div style="font-weight:bold;">${item.name}</div>
+                        <div style="font-size:12px;">${item.quantity} x ${item.price}€</div>
+                    </div>
+                    <button onclick="removeFromCart(${index})" style="color:red; border:none; background:none; cursor:pointer; font-weight:bold;">Eliminar</button>
+                </div>
+            `;
+        });
+
+        if (cartTotal) cartTotal.innerText = totalSum.toFixed(2);
+    }
+}
+
+// 5. Función para abrir/cerrar el panel
+function toggleCart() {
+    const panel = document.getElementById('cart-panel');
+    if (panel) panel.classList.toggle('open');
+}
+
+// Ejecutar al cargar la página para que el número del carrito no aparezca en 0 si ya había algo
+document.addEventListener('DOMContentLoaded', saveAndRefresh);
