@@ -33,17 +33,51 @@
 
         .product-image { width: 300px; border-radius: 20px; }
 
-        .btn-add { 
-            background: #3d2b1f; color: #fff; border: none; padding: 12px 25px; 
-            border-radius: 50px; font-weight: 800; cursor: pointer; margin-top: 15px;
+        /* CONTROLES DE CANTIDAD EN LA PÁGINA */
+        .quantity-selector {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin: 20px 0;
+            background: white;
+            width: fit-content;
+            padding: 8px 15px;
+            border-radius: 50px;
+            border: 1px solid #dcd1c5;
         }
+
+        .btn-qty {
+            background: none;
+            border: none;
+            font-size: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            color: #3d2b1f;
+            width: 30px;
+        }
+
+        .qty-value {
+            font-weight: 900;
+            font-size: 18px;
+            min-width: 20px;
+            text-align: center;
+        }
+
+        .btn-add { 
+            background: #3d2b1f; color: #fff; border: none; padding: 15px 35px; 
+            border-radius: 50px; font-weight: 800; cursor: pointer;
+            transition: 0.3s;
+        }
+        .btn-add:hover { background: #E85D04; transform: translateY(-2px); }
         
         #cart-panel {
             position: fixed; right: -420px; top: 0; width: 380px; height: 100%;
             background: #fff; box-shadow: -10px 0 30px rgba(0,0,0,0.1);
             transition: 0.4s; z-index: 1000; padding: 40px;
+            display: flex; flex-direction: column;
         }
         #cart-panel.open { right: 0; }
+        #cart-items { flex-grow: 1; overflow-y: auto; }
     </style>
 </head>
 <body>
@@ -62,7 +96,14 @@
                 <h2>Etiopía Yirgacheffe</h2>
                 <p>Notas florales y cítricas.</p>
                 <p style="font-weight:900; font-size:24px; color:#E85D04;">22.00€</p>
-                <button class="btn-add" onclick="addToCart('etiopia', 'Etiopía', 22)">AÑADIR AL CARRITO</button>
+                
+                <div class="quantity-selector">
+                    <button class="btn-qty" onclick="updateLocalQty('etiopia', -1)">-</button>
+                    <span class="qty-value" id="qty-etiopia">1</span>
+                    <button class="btn-qty" onclick="updateLocalQty('etiopia', 1)">+</button>
+                </div>
+
+                <button class="btn-add" onclick="buyNow('etiopia', 'Etiopía', 22)">AÑADIR AL CARRITO</button>
             </div>
         </section>
 
@@ -72,7 +113,14 @@
                 <h2>Colombia Huila</h2>
                 <p>Equilibrado y dulce.</p>
                 <p style="font-weight:900; font-size:24px; color:#E85D04;">18.50€</p>
-                <button class="btn-add" onclick="addToCart('colombia', 'Colombia', 18.5)">AÑADIR AL CARRITO</button>
+                
+                <div class="quantity-selector">
+                    <button class="btn-qty" onclick="updateLocalQty('colombia', -1)">-</button>
+                    <span class="qty-value" id="qty-colombia">1</span>
+                    <button class="btn-qty" onclick="updateLocalQty('colombia', 1)">+</button>
+                </div>
+
+                <button class="btn-add" onclick="buyNow('colombia', 'Colombia', 18.5)">AÑADIR AL CARRITO</button>
             </div>
         </section>
 
@@ -82,20 +130,54 @@
                 <h2>Perú Cajamarca</h2>
                 <p>Intenso chocolate amargo.</p>
                 <p style="font-weight:900; font-size:24px; color:#E85D04;">20.00€</p>
-                <button class="btn-add" onclick="addToCart('peru', 'Perú', 20)">AÑADIR AL CARRITO</button>
+                
+                <div class="quantity-selector">
+                    <button class="btn-qty" onclick="updateLocalQty('peru', -1)">-</button>
+                    <span class="qty-value" id="qty-peru">1</span>
+                    <button class="btn-qty" onclick="updateLocalQty('peru', 1)">+</button>
+                </div>
+
+                <button class="btn-add" onclick="buyNow('peru', 'Perú', 20)">AÑADIR AL CARRITO</button>
             </div>
         </section>
     </main>
 
     <div id="cart-panel">
-        <div style="display:flex; justify-content:space-between;">
-            <h2>CARRITO</h2>
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+            <h2 style="font-weight:900;">CARRITO</h2>
             <button onclick="toggleCart()" style="border:none; background:none; font-size:32px; cursor:pointer;">&times;</button>
         </div>
         <div id="cart-items" style="margin-top:20px;"></div>
-        <p style="margin-top:20px; font-weight:900;">Total: <span id="cart-total">0</span>€</p>
+        <div style="border-top: 1px solid #eee; padding-top: 20px;">
+            <p style="display:flex; justify-content:space-between; font-weight:900; font-size:20px;">
+                <span>Total:</span>
+                <span><span id="cart-total">0</span>€</span>
+            </p>
+            <button style="width:100%; padding:15px; background:#3d2b1f; color:white; border:none; border-radius:50px; margin-top:15px; font-weight:bold; cursor:pointer;">PAGAR AHORA</button>
+        </div>
     </div>
 
     <script src="carrito.js"></script>
+    <script>
+        // Esta función cambia el numerito que se ve en la página antes de comprar
+        function updateLocalQty(id, change) {
+            const el = document.getElementById('qty-' + id);
+            let current = parseInt(el.innerText);
+            current += change;
+            if (current < 1) current = 1; // No dejar bajar de 1
+            el.innerText = current;
+        }
+
+        // Esta función envía la cantidad elegida al carrito.js
+        function buyNow(id, name, price) {
+            const qty = parseInt(document.getElementById('qty-' + id).innerText);
+            // Llamamos a la función de tu carrito.js pero pasando la cantidad
+            for(let i = 0; i < qty; i++) {
+                addToCart(id, name, price);
+            }
+            // Resetear el contador a 1 después de añadir
+            document.getElementById('qty-' + id).innerText = 1;
+        }
+    </script>
 </body>
 </html>
