@@ -3,111 +3,159 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tienda Dinámica | Deep Work Coffee</title>
+  <title>Tienda | Deep Work Coffee</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
-    /* ... (Tus estilos anteriores) ... */
     * { box-sizing: border-box; }
-    body { margin: 0; font-family: 'Inter', sans-serif; background: #f5f5f5; }
+    body { margin: 0; font-family: 'Inter', sans-serif; background: #f5f5f5; color: #111; overflow-x: hidden; }
+    
+    /* Navegación */
     nav { background: #fff; padding: 20px 0; border-bottom: 1px solid #eee; position: sticky; top: 0; z-index: 100; }
     .container { max-width: 1100px; margin: auto; padding: 0 20px; }
     .nav-inner { display: flex; justify-content: space-between; align-items: center; }
     nav a { text-decoration: none; color: #000; margin-left: 20px; font-weight: 600; }
-    
-    /* Estilo del Carrito Flotante */
+
+    /* Carrito Lateral */
     #cart-panel {
       position: fixed; right: -400px; top: 0; width: 350px; height: 100%;
-      background: #fff; box-shadow: -5px 0 15px rgba(0,0,0,0.1);
-      transition: 0.3s; z-index: 1000; padding: 30px;
+      background: #fff; box-shadow: -10px 0 30px rgba(0,0,0,0.1);
+      transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1); z-index: 1000; padding: 40px 30px;
+      display: flex; flex-direction: column;
     }
     #cart-panel.open { right: 0; }
-    .cart-item { display: flex; justify-content: space-between; margin-bottom: 15px; border-bottom: 1px solid #eee; padding-bottom: 10px; }
-    .btn-buy-cart { background: #000; color: #fff; width: 100%; padding: 15px; border: none; border-radius: 10px; cursor: pointer; font-weight: bold; margin-top: 20px; }
+    .cart-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
+    .cart-items-container { flex-grow: 1; overflow-y: auto; }
+    .cart-item { display: flex; justify-content: space-between; padding: 15px 0; border-bottom: 1px solid #eee; font-size: 14px; }
+    .cart-total-section { padding-top: 20px; border-top: 2px solid #111; margin-top: 20px; }
+
+    /* Tienda Grid */
+    .section { padding: 60px 20px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+    .product-card { background: #fff; border-radius: 20px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border: 1px solid #eee; display: flex; flex-direction: column; }
+    .product-img { width: 100%; height: 250px; object-fit: cover; }
+    .product-info { padding: 25px; flex-grow: 1; display: flex; flex-direction: column; text-align: center; }
+    .price { font-size: 22px; font-weight: 700; margin: 15px 0; }
     
-    /* Botones de la tienda */
-    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-top: 40px;}
-    .product-card { background: #fff; border-radius: 20px; padding: 20px; text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
-    .btn-add { background: #000; color: #fff; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; width: 100%; }
+    /* Botones */
+    .btn-add { 
+      background: #000; color: #fff; border: none; padding: 15px; 
+      border-radius: 12px; font-weight: 600; cursor: pointer; transition: 0.2s;
+    }
+    .btn-add:hover { transform: scale(1.02); opacity: 0.9; }
+    .btn-checkout { 
+      background: #000; color: #fff; width: 100%; padding: 18px; 
+      border: none; border-radius: 12px; font-weight: 700; cursor: pointer; margin-top: 20px;
+    }
+    
+    .cart-trigger { background: #111; color: #fff; padding: 8px 16px; border-radius: 50px; cursor: pointer; display: flex; gap: 8px; align-items: center; }
   </style>
 </head>
 <body>
 
   <nav>
     <div class="container nav-inner">
-      <strong>Deep Work Coffee</strong>
-      <div>
+      <a href="index.html" style="text-decoration:none; color:inherit;"><strong>Deep Work Coffee</strong></a>
+      <div style="display:flex; align-items:center;">
         <a href="index.html">Inicio</a>
-        <a href="#" onclick="toggleCart()">🛒 Carrito (<span id="cart-count">0</span>)</a>
+        <div class="cart-trigger" onclick="toggleCart()">
+          🛒 <span id="cart-count">0</span>
+        </div>
       </div>
     </div>
   </nav>
 
-  <div class="container section">
-    <h1>Nuestra Selección</h1>
+  <section class="section container">
+    <h1 style="text-align:center;">Nuestros Cafés</h1>
     <div class="grid">
+      
       <div class="product-card">
-        <h3>Etiopía - Yirgacheffe</h3>
-        <p>30.00€</p>
-        <button class="btn-add" onclick="addToCart('Etiopía', 30)">Añadir al carrito</button>
+        <img src="https://images.unsplash.com/photo-1559056199-641a0ac8b55e" class="product-img">
+        <div class="product-info">
+          <h3>Etiopía - Yirgacheffe</h3>
+          <p style="color:#666; font-size:14px;">Notas cítricas y jazmín. Perfecto para concentración máxima.</p>
+          <div class="price">30,00€</div>
+          <button class="btn-add" onclick="addToCart('Etiopía Yirgacheffe', 30)">Añadir al carrito</button>
+        </div>
       </div>
+
       <div class="product-card">
-        <h3>Brasil - Minas Gerais</h3>
-        <p>25.00€</p>
-        <button class="btn-add" onclick="addToCart('Brasil', 25)">Añadir al carrito</button>
+        <img src="https://images.unsplash.com/photo-1611854779393-1b2da9d400fe" class="product-img">
+        <div class="product-info">
+          <h3>Brasil - Minas Gerais</h3>
+          <p style="color:#666; font-size:14px;">Cuerpo denso y notas de chocolate amargo.</p>
+          <div class="price">25,00€</div>
+          <button class="btn-add" onclick="addToCart('Brasil Minas Gerais', 25)">Añadir al carrito</button>
+        </div>
       </div>
+
     </div>
-  </div>
+  </section>
 
   <div id="cart-panel">
-    <h2>Tu Pedido</h2>
-    <div id="cart-items">
+    <div class="cart-header">
+      <h2>Tu Carrito</h2>
+      <button onclick="toggleCart()" style="border:none; background:none; font-size:24px; cursor:pointer;">&times;</button>
+    </div>
+    
+    <div id="cart-items" class="cart-items-container">
+      <p id="empty-msg" style="color:#888; text-align:center; margin-top:50px;">El carrito está vacío</p>
+    </div>
+
+    <div class="cart-total-section">
+      <div style="display:flex; justify-content:space-between; font-size:18px; font-weight:700;">
+        <span>Total:</span>
+        <span><span id="cart-total">0</span>€</span>
       </div>
-    <div style="margin-top: 20px; font-weight: bold;"> Total: <span id="cart-total">0</span>€</div>
-    <button class="btn-buy-cart" onclick="checkout()">Pagar ahora con Stripe</button>
-    <button onclick="toggleCart()" style="background:none; border:none; color:red; cursor:pointer; margin-top:10px;">Cerrar</button>
+      <button class="btn-checkout" onclick="goToCheckout()">Finalizar Pedido</button>
+    </div>
   </div>
 
   <script>
     let cart = [];
 
     function addToCart(name, price) {
-      cart.push({name, price});
-      updateCartUI();
-      if(!document.getElementById('cart-panel').classList.contains('open')) toggleCart();
+      cart.push({ name, price });
+      updateUI();
+      openCart();
     }
 
     function toggleCart() {
       document.getElementById('cart-panel').classList.toggle('open');
     }
 
-    function updateCartUI() {
-      const itemsDiv = document.getElementById('cart-items');
-      const countSpan = document.getElementById('cart-count');
-      const totalSpan = document.getElementById('cart-total');
-      
-      itemsDiv.innerHTML = '';
-      let total = 0;
-      
-      cart.forEach((item, index) => {
-        total += item.price;
-        itemsDiv.innerHTML += `
-          <div class="cart-item">
-            <span>${item.name}</span>
-            <span>${item.price}€</span>
-          </div>
-        `;
-      });
-      
-      countSpan.innerText = cart.length;
-      totalSpan.innerText = total;
+    function openCart() {
+      document.getElementById('cart-panel').classList.add('open');
     }
 
-    function checkout() {
-      if(cart.length === 0) return alert("El carrito está vacío");
-      // Aquí redirigimos a Stripe. 
-      // Para un carrito dinámico real, usarías el "Enlace de pago" de Stripe 
-      // o una sesión de Checkout que acepte múltiples ítems.
-      window.location.href = "https://buy.stripe.com/test_6oUcMX0UMaYsgZMaMB5EY00"; 
+    function updateUI() {
+      const container = document.getElementById('cart-items');
+      const count = document.getElementById('cart-count');
+      const total = document.getElementById('cart-total');
+      const emptyMsg = document.getElementById('empty-msg');
+
+      container.innerHTML = '';
+      let sum = 0;
+
+      if(cart.length === 0) {
+        container.appendChild(emptyMsg);
+      } else {
+        cart.forEach((item, index) => {
+          sum += item.price;
+          const div = document.createElement('div');
+          div.className = 'cart-item';
+          div.innerHTML = `<span>${item.name}</span> <strong>${item.price}€</strong>`;
+          container.appendChild(div);
+        });
+      }
+
+      count.innerText = cart.length;
+      total.innerText = sum;
+    }
+
+    function goToCheckout() {
+      if(cart.length === 0) return alert("Añade algún café primero");
+      // Importante: Aquí pones el enlace de Stripe (modo prueba o real)
+      window.location.href = "https://buy.stripe.com/test_6oUcMX0UMaYsgZMaMB5EY00";
     }
   </script>
 
