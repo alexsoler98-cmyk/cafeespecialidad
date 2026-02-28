@@ -3,109 +3,105 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Deep Work Coffee | Orígenes</title>
+    <title>Deep Work Coffee | Home</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
+        /* 1. ESTILOS GLOBALES */
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
         
-        /* FONDO CLARO CON IMAGEN DE CAFETAL */
+        /* FONDO: Cambiado de negro a Marrón Tostado Suave */
         body { 
-            background-color: #fdfbf7; /* Color crema hueso */
-            background-image: 
-                linear-gradient(rgba(253, 251, 247, 0.85), rgba(253, 251, 247, 0.85)),
-                url('https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?q=80&w=2078&auto=format&fit=crop'); 
+            background: linear-gradient(135deg, #2b1d16 0%, #4a3528 100%);
             background-attachment: fixed;
-            background-size: cover;
-            color: #2c1e1a; /* Marrón muy oscuro casi negro */
+            color: #fff; 
             min-height: 100vh;
         }
 
-        .container { max-width: 1200px; margin: auto; padding: 0 25px; }
+        .container { max-width: 1100px; margin: auto; padding: 0 20px; }
 
-        /* NAVEGACIÓN LIMPIA */
+        /* 2. NAVEGACIÓN GLASSMORPHISM */
         nav { 
-            background: rgba(255, 255, 255, 0.7); 
-            backdrop-filter: blur(10px);
-            padding: 15px 0; 
-            border-bottom: 1px solid rgba(0, 0, 0, 0.05); 
+            background: rgba(255, 255, 255, 0.03); 
+            backdrop-filter: blur(12px);
+            padding: 20px 0; 
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08); 
             position: sticky; top: 0; z-index: 100; 
         }
         .nav-inner { display: flex; justify-content: space-between; align-items: center; }
-        .nav-brand { text-decoration: none; color: #2c1e1a; font-weight: 900; font-size: 22px; }
-        .nav-links a { text-decoration: none; color: #5a4033; font-weight: 600; margin-right: 20px; transition: 0.3s; }
-        .nav-links a:hover { color: #E85D04; }
+        .nav-brand { text-decoration: none; color: #fff; font-weight: 900; font-size: 22px; letter-spacing: -1px; }
         
         .cart-trigger { 
-            cursor: pointer; font-weight: bold; background: #2c1e1a; color: #fff; 
+            cursor: pointer; font-weight: bold; background: #E85D04; color: #fff; 
             padding: 10px 20px; border-radius: 50px; display: flex; align-items: center; gap: 8px;
-            transition: transform 0.2s;
+            box-shadow: 0 4px 15px rgba(232, 93, 4, 0.2);
+            border: none;
         }
-        .cart-trigger:hover { transform: scale(1.05); }
 
-        /* HERO SECTION */
+        /* 3. HERO SECTION */
         .hero { text-align: center; padding: 80px 20px; }
         .hero h1 { 
-            font-size: 58px; font-weight: 900; margin-bottom: 15px; color: #2c1e1a;
+            font-size: 55px; font-weight: 900; margin-bottom: 15px; 
             letter-spacing: -2px; line-height: 1.1;
         }
-        .hero p { font-size: 19px; color: #6d5448; max-width: 600px; margin: auto; }
+        .hero p { font-size: 19px; color: #c2b2a9; max-width: 600px; margin: auto; }
 
-        /* CARRUSEL DE CAFÉS */
+        /* 4. CARRUSEL EXPANDIBLE */
         .origins-slider {
-            display: flex; gap: 20px; width: 100%; height: 500px; margin: 40px 0;
+            display: flex; gap: 15px; width: 100%; height: 500px; margin: 40px 0;
         }
 
         .origin-card {
-            flex: 1; position: relative; overflow: hidden; border-radius: 30px;
-            cursor: pointer; transition: flex 0.8s cubic-bezier(0.25, 1, 0.3, 1);
-            box-shadow: 0 15px 35px rgba(44, 30, 26, 0.15);
+            flex: 1; position: relative; overflow: hidden; border-radius: 25px;
+            cursor: pointer; transition: flex 0.7s cubic-bezier(0.25, 1, 0.3, 1);
+            border: 1px solid rgba(255,255,255,0.1);
         }
 
         .origin-card:hover { flex: 4; }
 
         .origin-bg {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            object-fit: cover; transition: 0.8s;
+            object-fit: cover; filter: brightness(0.6);
+            transition: 0.7s;
         }
 
-        .origin-card:hover .origin-bg { transform: scale(1.1); }
+        .origin-card:hover .origin-bg { transform: scale(1.1); filter: brightness(0.5); }
 
         .origin-content {
             position: absolute; bottom: 0; left: 0; width: 100%; padding: 35px;
-            background: linear-gradient(transparent, rgba(44, 30, 26, 0.9));
-            color: #fff; z-index: 2;
+            background: linear-gradient(transparent, rgba(0,0,0,0.7));
+            z-index: 2;
         }
 
-        .origin-content h2 { font-size: 30px; margin: 5px 0; }
+        .origin-content h2 { font-size: 28px; margin: 10px 0; color: #fff; }
 
         .origin-history {
             max-height: 0; opacity: 0; overflow: hidden;
-            transition: 0.6s; font-size: 15px; margin-bottom: 20px;
+            transition: 0.5s; font-size: 15px; color: #ddd; margin-bottom: 20px;
         }
 
         .origin-card:hover .origin-history { max-height: 150px; opacity: 1; }
 
         .btn-probar {
-            display: inline-block; padding: 12px 25px; background: #E85D04; color: #fff;
-            text-decoration: none; border-radius: 50px; font-weight: 700;
+            display: inline-block; padding: 12px 25px; background: #fff; color: #000;
+            text-decoration: none; border-radius: 50px; font-weight: 800;
             opacity: 0; transform: translateY(15px); transition: 0.4s;
         }
 
         .origin-card:hover .btn-probar { opacity: 1; transform: translateY(0); }
 
-        /* BARRA INDICADORA */
-        .scroll-bar { width: 100%; height: 3px; background: #e0d7cd; margin-bottom: 60px; position: relative; }
-        .scroll-indicator { position: absolute; height: 100%; width: 33.33%; background: #2c1e1a; transition: 0.5s; left: 0; }
+        /* 5. BARRA DE MOVIMIENTO */
+        .scroll-bar { width: 100%; height: 3px; background: rgba(255,255,255,0.1); margin-bottom: 60px; position: relative; }
+        .scroll-indicator { position: absolute; height: 100%; width: 33.33%; background: #E85D04; transition: 0.5s; left: 0; }
 
-        /* PANEL DEL CARRITO */
+        /* 6. PANEL DEL CARRITO */
         #cart-panel {
             position: fixed; right: -420px; top: 0; width: 380px; height: 100%;
-            background: #fff; box-shadow: -10px 0 30px rgba(0,0,0,0.1);
+            background: #2b1d16; border-left: 1px solid rgba(255,255,255,0.1);
             transition: 0.4s; z-index: 1000; padding: 40px;
             display: flex; flex-direction: column;
         }
         #cart-panel.open { right: 0; }
-        .cart-items-container { flex-grow: 1; overflow-y: auto; margin-top: 20px; color: #2c1e1a; }
+        .cart-items-container { flex-grow: 1; overflow-y: auto; margin-top: 20px; }
     </style>
 </head>
 <body>
@@ -113,45 +109,45 @@
     <nav>
         <div class="container nav-inner">
             <a href="index.html" class="nav-brand">DEEP WORK COFFEE</a>
-            <div class="nav-links">
-                <a href="cafes.html">Tienda</a>
+            <div style="display:flex; align-items:center; gap:25px;">
+                <a href="cafes.html" style="text-decoration:none; color:#ddd; font-weight:600;">Tienda</a>
                 <button onclick="toggleCart()" class="cart-trigger">🛒 (<span id="cart-count">0</span>)</button>
             </div>
         </div>
     </nav>
 
     <header class="hero container">
-        <h1>Del Cafetal a tu Mente</h1>
-        <p>Seleccionamos granos de alta montaña para potenciar tus estados de flujo y creatividad profunda.</p>
+        <h1>Tu Ritual de Enfoque</h1>
+        <p>Café de especialidad seleccionado para los que buscan profundidad en cada tarea.</p>
     </header>
 
     <section class="container">
         <div class="origins-slider">
             <div class="origin-card" onmouseover="moveIndicator(0)">
-                <img src="https://images.unsplash.com/photo-1525088553748-01d6e210e00b?q=80&w=2076" class="origin-bg">
+                <img src="https://images.unsplash.com/photo-1511537190424-bbbab87ac5eb?q=80&w=2070" class="origin-bg">
                 <div class="origin-content">
-                    <small style="color: #ffb88c; font-weight: 800;">ÁFRICA</small>
-                    <h2>Etiopía - Limu</h2>
-                    <div class="origin-history">Notas cítricas y cuerpo sedoso. Un café recolectado a mano en las zonas boscosas donde todo comenzó.</div>
-                    <a href="cafes.html" class="btn-probar">Probar Origen</a>
+                    <small style="color: #E85D04; font-weight: 800; letter-spacing: 1px;">ÁFRICA</small>
+                    <h2>Etiopía Yirgacheffe</h2>
+                    <div class="origin-history">Notas florales y cítricas. Claridad absoluta para tus mañanas creativas.</div>
+                    <a href="cafes.html" class="btn-probar">VER EN TIENDA</a>
                 </div>
             </div>
             <div class="origin-card" onmouseover="moveIndicator(1)">
-                <img src="https://images.unsplash.com/photo-1551033406-611cf9a28f67?q=80&w=1887" class="origin-bg">
+                <img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?q=80&w=2070" class="origin-bg">
                 <div class="origin-content">
-                    <small style="color: #ffb88c; font-weight: 800;">SUDAMÉRICA</small>
-                    <h2>Colombia - Andino</h2>
-                    <div class="origin-history">Dulzura equilibrada con toques de nuez. Cultivado bajo la sombra de árboles frutales en el eje cafetero.</div>
-                    <a href="cafes.html" class="btn-probar">Probar Origen</a>
+                    <small style="color: #E85D04; font-weight: 800; letter-spacing: 1px;">SUDAMÉRICA</small>
+                    <h2>Colombia Huila</h2>
+                    <div class="origin-history">Equilibrio de caramelo y frutos rojos. Energía constante para el flujo de trabajo.</div>
+                    <a href="cafes.html" class="btn-probar">VER EN TIENDA</a>
                 </div>
             </div>
             <div class="origin-card" onmouseover="moveIndicator(2)">
-                <img src="https://images.unsplash.com/photo-1550983058-ba68da933860?q=80&w=1974" class="origin-bg">
+                <img src="https://images.unsplash.com/photo-1459755486867-b55449bb39ff?q=80&w=2070" class="origin-bg">
                 <div class="origin-content">
-                    <small style="color: #ffb88c; font-weight: 800;">PERÚ</small>
-                    <h2>Perú - Selva Alta</h2>
-                    <div class="origin-history">Chocolate intenso y un aroma terroso. Un grano robusto que nace entre la neblina de los Andes amazónicos.</div>
-                    <a href="cafes.html" class="btn-probar">Probar Origen</a>
+                    <small style="color: #E85D04; font-weight: 800; letter-spacing: 1px;">SUDAMÉRICA</small>
+                    <h2>Perú Cajamarca</h2>
+                    <div class="origin-history">Chocolate amargo y nueces. Cuerpo robusto para las tardes de trabajo profundo.</div>
+                    <a href="cafes.html" class="btn-probar">VER EN TIENDA</a>
                 </div>
             </div>
         </div>
@@ -162,16 +158,16 @@
 
     <div id="cart-panel">
         <div style="display:flex; justify-content:space-between; align-items:center;">
-            <h2 style="font-weight:900; color: #2c1e1a;">TU CARRITO</h2>
-            <button onclick="toggleCart()" style="border:none; background:none; font-size:32px; cursor:pointer;">&times;</button>
+            <h2 style="font-weight:900;">MI PEDIDO</h2>
+            <button onclick="toggleCart()" style="border:none; background:none; font-size:32px; cursor:pointer; color:#fff;">&times;</button>
         </div>
         <div id="cart-items" class="cart-items-container"></div>
-        <div style="border-top:2px solid #f0f0f0; padding-top:20px;">
-            <div style="display:flex; justify-content:space-between; font-weight:900; font-size:24px; color: #2c1e1a;">
-                <span>Total:</span>
+        <div style="border-top:1px solid rgba(255,255,255,0.1); padding-top:20px;">
+            <div style="display:flex; justify-content:space-between; font-weight:900; font-size:22px;">
+                <span>TOTAL:</span>
                 <span><span id="cart-total">0</span>€</span>
             </div>
-            <button onclick="window.location.href='cafes.html'" style="width:100%; padding:18px; background:#2c1e1a; color:#fff; border:none; border-radius:15px; margin-top:20px; font-weight:900; cursor:pointer;">FINALIZAR COMPRA</button>
+            <button onclick="window.location.href='cafes.html'" style="width:100%; padding:18px; background:#E85D04; color:#fff; border:none; border-radius:12px; margin-top:20px; font-weight:900; cursor:pointer;">FINALIZAR</button>
         </div>
     </div>
 
