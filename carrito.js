@@ -1,44 +1,40 @@
-// 1. Cargar el carrito desde el almacenamiento del navegador
+// 1. Cargar el carrito guardado o empezar uno vacío
 let cart = JSON.parse(localStorage.getItem('coffeeCart')) || [];
 
-// 2. Función para añadir productos
+// 2. Función para añadir productos (la que llaman tus botones con onclick)
 function addToCart(id, name, price) {
-    // Buscamos si el producto ya está en el carrito
     const itemIndex = cart.findIndex(item => item.id === id);
 
     if (itemIndex > -1) {
-        // Si ya existe, sumamos uno a la cantidad
         cart[itemIndex].quantity += 1;
     } else {
-        // Si es nuevo, lo añadimos
         cart.push({ id, name, price, quantity: 1 });
     }
 
-    // Guardamos y actualizamos la vista
     saveAndRefresh();
     
-    // Abrimos el carrito para que el usuario vea que se añadió
+    // Abrir el panel automáticamente al añadir
     const panel = document.getElementById('cart-panel');
-    if(panel) panel.classList.add('open');
+    if (panel) panel.classList.add('open');
 }
 
-// 3. Función para borrar productos
+// 3. Función para eliminar un producto
 function removeFromCart(index) {
     cart.splice(index, 1);
     saveAndRefresh();
 }
 
-// 4. Guardar en memoria y actualizar la pantalla
+// 4. Guardar cambios y actualizar lo que ve el usuario
 function saveAndRefresh() {
     localStorage.setItem('coffeeCart', JSON.stringify(cart));
     
-    // Actualizar el numerito del icono del carrito
+    // Actualizar el contador del icono (el numerito)
     const cartCount = document.getElementById('cart-count');
     if (cartCount) {
         cartCount.innerText = cart.reduce((total, item) => total + item.quantity, 0);
     }
 
-    // Actualizar la lista dentro del panel
+    // Dibujar la lista de productos dentro del panel
     const cartItems = document.getElementById('cart-items');
     const cartTotal = document.getElementById('cart-total');
     
@@ -49,12 +45,12 @@ function saveAndRefresh() {
         cart.forEach((item, index) => {
             totalSum += item.price * item.quantity;
             cartItems.innerHTML += `
-                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px; background:#f9f9f9; padding:10px; border-radius:10px; color:#333;">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px; background:#f9f9f9; padding:12px; border-radius:12px; color:#3d2b1f; border: 1px solid #eee;">
                     <div>
-                        <div style="font-weight:bold;">${item.name}</div>
-                        <div style="font-size:12px;">${item.quantity} x ${item.price}€</div>
+                        <div style="font-weight:bold; font-size:14px;">${item.name}</div>
+                        <div style="font-size:12px; color:#888;">${item.quantity} x ${item.price.toFixed(2)}€</div>
                     </div>
-                    <button onclick="removeFromCart(${index})" style="color:red; border:none; background:none; cursor:pointer; font-weight:bold;">Eliminar</button>
+                    <button onclick="removeFromCart(${index})" style="color:#e63946; border:none; background:none; cursor:pointer; font-size:18px; font-weight:bold;">&times;</button>
                 </div>
             `;
         });
@@ -63,11 +59,11 @@ function saveAndRefresh() {
     }
 }
 
-// 5. Función para abrir/cerrar el panel
+// 5. Función para abrir/cerrar el panel manualmente
 function toggleCart() {
     const panel = document.getElementById('cart-panel');
     if (panel) panel.classList.toggle('open');
 }
 
-// Ejecutar al cargar la página para que el número del carrito no aparezca en 0 si ya había algo
+// 6. Al cargar cualquier página, actualizar los datos
 document.addEventListener('DOMContentLoaded', saveAndRefresh);
