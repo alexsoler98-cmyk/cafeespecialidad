@@ -3,150 +3,35 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Deep Work Coffee</title>
+  <title>Deep Work Coffee | Inicio</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-
   <style>
+    /* Mantenemos tu base de estilos pero con limpieza */
     * { box-sizing: border-box; }
-
-    body {
-      margin: 0;
-      font-family: 'Inter', sans-serif;
-      background: #f5f5f5;
-      color: #111;
-    }
-
-    nav {
-      background: #fff;
-      padding: 20px 0;
-      border-bottom: 1px solid #eee;
-      position: sticky;
-      top: 0;
-    }
-
-    .container {
-      max-width: 1100px;
-      margin: auto;
-      padding: 0 20px;
-    }
-
-    .nav-inner {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    nav a {
-      text-decoration: none;
-      color: #000;
-      margin-left: 20px;
-      font-weight: 600;
-    }
-
-    .hero {
-      background: #fff;
-      padding: 120px 20px;
-      text-align: center;
-    }
-
-    h1 {
-      font-size: 44px;
-      margin-bottom: 20px;
-    }
-
-    h2 {
-      font-size: 36px;
-      margin-bottom: 20px;
-    }
-
-    p {
-      color: #555;
-      max-width: 700px;
-      margin: auto;
-      line-height: 1.6;
-    }
-
-    .btn {
-      display: inline-block;
-      padding: 14px 28px;
-      margin: 25px 10px 0 10px;
-      border-radius: 14px;
-      text-decoration: none;
-      font-weight: 600;
-      transition: 0.3s;
-    }
-
-    .btn-primary {
-      background: #000;
-      color: #fff;
-    }
-
-    .btn-primary:hover {
-      opacity: 0.85;
-    }
-
-    .btn-secondary {
-      border: 1px solid #ccc;
-      background: #fff;
-      color: #000;
-    }
-
-    .hero img {
-      width: 100%;
-      max-width: 900px;
-      height: 420px;
-      object-fit: cover;
-      border-radius: 24px;
-      margin-top: 60px;
-    }
-
-    .section {
-      padding: 80px 20px;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px,1fr));
-      gap: 25px;
-      margin-top: 50px;
-    }
-
-    .card {
-      background: #fff;
-      padding: 30px;
-      border-radius: 20px;
-      box-shadow: 0 6px 20px rgba(0,0,0,0.05);
-      text-align: center;
-    }
-
-    .cta {
-      background: #000;
-      color: #fff;
-      text-align: center;
-      padding: 100px 20px;
-    }
-
-    footer {
-      text-align: center;
-      padding: 30px;
-      font-size: 14px;
-      background: #fff;
-      color: #777;
-    }
-
-    @media(max-width:600px){
-      h1 { font-size: 30px; }
-      h2 { font-size: 24px; }
-      .hero img { height: 260px; }
-    }
+    body { margin: 0; font-family: 'Inter', sans-serif; background: #f5f5f5; color: #111; scroll-behavior: smooth; }
+    nav { background: #fff; padding: 20px 0; border-bottom: 1px solid #eee; position: sticky; top: 0; z-index: 100; }
+    .container { max-width: 1100px; margin: auto; padding: 0 20px; }
+    .nav-inner { display: flex; justify-content: space-between; align-items: center; }
+    nav a { text-decoration: none; color: #000; margin-left: 20px; font-weight: 600; }
+    .hero { background: #fff; padding: 100px 20px; text-align: center; }
+    h1 { font-size: 44px; margin-bottom: 20px; }
+    p { color: #555; max-width: 700px; margin: auto; line-height: 1.6; }
+    .btn { display: inline-block; padding: 14px 28px; margin: 25px 10px 0 10px; border-radius: 14px; text-decoration: none; font-weight: 600; transition: 0.3s; cursor: pointer; }
+    .btn-primary { background: #000; color: #fff; border: none; }
+    .btn-secondary { border: 1px solid #ccc; background: #fff; color: #000; }
+    .hero img { width: 100%; max-width: 900px; height: 420px; object-fit: cover; border-radius: 24px; margin-top: 60px; }
+    .section { padding: 80px 20px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px,1fr)); gap: 25px; margin-top: 50px; }
+    .card { background: #fff; padding: 30px; border-radius: 20px; box-shadow: 0 6px 20px rgba(0,0,0,0.05); text-align: center; }
+    .cta { background: #000; color: #fff; text-align: center; padding: 100px 20px; }
+    footer { text-align: center; padding: 30px; font-size: 14px; background: #fff; color: #777; }
   </style>
 </head>
 <body>
 
-  <!-- Navegación -->
   <nav>
     <div class="container nav-inner">
-      <strong>Deep Work Coffee</strong>
+      <a href="index.html" style="margin:0; font-size: 1.2rem;"><strong>Deep Work Coffee</strong></a>
       <div>
         <a href="cafes.html">Cafés</a>
         <a href="#info">Info</a>
@@ -154,51 +39,42 @@
     </div>
   </nav>
 
-  <!-- Hero -->
   <section class="hero">
-    <h1>Café de especialidad para gente que teletrabaja</h1>
-    <p>Mejora tu ritual diario de enfoque con energía estable y sabor premium.</p>
-    <a href="#info" class="btn btn-secondary">Saber más</a>
-    <img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085">
-  </section>
-
-  <!-- Nuestra variedad de cafés disponibles -->
-  <section class="section container">
-    <h2 style="text-align:center; margin-bottom:40px;">Nuestra variedad de cafés disponibles</h2>
-    <p style="text-align:center; max-width:700px; margin:auto; color:#555; line-height:1.6;">
-      Descubre nuestra selección de cafés de especialidad, cuidadosamente tostados y seleccionados para ofrecerte el mejor sabor y aroma en cada taza.
-    </p>
-    <div style="text-align:center; margin-top:30px;">
-      <a href="cafes.html" class="btn btn-primary">Ver nuestros cafés</a>
+    <h1>Café de especialidad para mentes enfocadas</h1>
+    <p>Optimiza tus sesiones de trabajo profundo con granos seleccionados para una energía constante y sin distracciones.</p>
+    <div class="hero-btns">
+        <a href="cafes.html" class="btn btn-primary">Ver Catálogo</a>
+        <a href="#info" class="btn btn-secondary">¿Por qué Deep Work?</a>
     </div>
+    <img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085" alt="Café de especialidad">
   </section>
 
-  <!-- Info Section -->
   <section id="info" class="section container">
+    <h2 style="text-align: center;">Diseñado para el rendimiento</h2>
     <div class="grid">
       <div class="card">
-        <h3>Energía estable</h3>
-        <p>Sin picos agresivos ni bajones bruscos.</p>
+        <h3>⚡ Energía estable</h3>
+        <p>Tuestes medios que preservan los antioxidantes y evitan el "crash" de cafeína de la tarde.</p>
       </div>
       <div class="card">
-        <h3>Sabor premium</h3>
-        <p>Notas de chocolate, nuez y equilibrio perfecto.</p>
+        <h3>🍫 Sabor premium</h3>
+        <p>Notas de chocolate amargo, avellana y frutos rojos. Dulzor natural sin necesidad de azúcar.</p>
       </div>
       <div class="card">
-        <h3>Ritual de enfoque</h3>
-        <p>Diseñado para sesiones largas de Deep Work.</p>
+        <h3>🧠 Ritual de enfoque</h3>
+        <p>Convertir el preparado del café en la señal que le indica a tu cerebro que es hora de producir.</p>
       </div>
     </div>
   </section>
 
-  <!-- CTA -->
   <section class="cta">
-    <h2>Empieza a trabajar con mejor energía</h2>
-    <a href="cafes.html" class="btn btn-secondary">Descubrir cafés</a>
+    <h2>¿Listo para tu próxima sesión de Deep Work?</h2>
+    <p style="color: #ccc; margin-bottom: 20px;">Únete a cientos de desarrolladores y creativos.</p>
+    <a href="cafes.html" class="btn btn-secondary">Comprar ahora</a>
   </section>
 
   <footer>
-    © 2026 Deep Work Coffee
+    © 2026 Deep Work Coffee | Hecho para creadores.
   </footer>
 
 </body>
