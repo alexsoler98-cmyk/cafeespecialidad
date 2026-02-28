@@ -1,29 +1,49 @@
-.cart-qty-controls {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  background: #f8f8f8;
-  border-radius: 25px;
-  padding: 5px 15px;
-  border: 1px solid #eee;
+function changeQty(id, delta) {
+  if (cart[id]) {
+    cart[id].quantity += delta;
+    
+    // Si la cantidad baja de 1, eliminamos el producto automáticamente
+    if (cart[id].quantity <= 0) {
+      delete cart[id];
+    }
+    updateUI();
+  }
 }
 
-.qty-btn {
-  border: none;
-  background: #fff;
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-  font-weight: bold;
-  transition: 0.2s;
-}
+function updateUI() {
+  const container = document.getElementById('cart-items');
+  const countLabel = document.getElementById('cart-count');
+  const totalLabel = document.getElementById('cart-total');
+  
+  container.innerHTML = '';
+  let total = 0;
+  let itemsCount = 0;
 
-.qty-btn:hover {
-  background: #000;
-  color: #fff;
+  Object.keys(cart).forEach(id => {
+    const item = cart[id];
+    total += item.price * item.quantity;
+    itemsCount += item.quantity;
+
+    container.innerHTML += `
+      <div class="cart-item">
+        <div class="cart-item-info">
+          <strong>${item.name}</strong>
+          <span>${item.price * item.quantity}€</span>
+        </div>
+        <div class="cart-qty-controls">
+          <button class="qty-btn" onclick="changeQty('${id}', -1)">-</button>
+          <span style="font-weight:600; min-width:20px; text-align:center;">${item.quantity}</span>
+          <button class="qty-btn" onclick="changeQty('${id}', 1)">+</button>
+        </div>
+        <button class="delete-btn" onclick="removeItem('${id}')" title="Eliminar">🗑️</button>
+      </div>
+    `;
+  });
+
+  countLabel.innerText = itemsCount;
+  totalLabel.innerText = total;
+  
+  if (itemsCount === 0) {
+    container.innerHTML = '<p style="text-align:center; color:#888; margin-top:30px;">Tu carrito está esperando café...</p>';
+  }
 }
